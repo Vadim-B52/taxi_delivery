@@ -11,6 +11,7 @@ class _UI {
 class DeliveryPage extends StatelessWidget {
   final String addressText = 'улица Льва Толстого, 16\nМосква, Хамовники';
   final DateTime deliveryDate = DateTime(2020, 3, 2, 12, 30);
+  final List<String> actions = ['directions', 'call', 'here'];
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class DeliveryPage extends StatelessWidget {
           _divider(context),
           _TimeSection(deliveryDate),
           _divider(context),
-          DeliveryPageActions(),
+          _actionsSection(context),
           _divider(context),
           DeliveryPageOrders()
         ],
@@ -54,6 +55,29 @@ class DeliveryPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _actionsSection(BuildContext context) {
+    return Container(
+        padding: const EdgeInsets.all(2 * _UI.m),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: actions.map(this._action).where((x) => x != null).toList(),
+        ));
+  }
+
+  Widget _action(String type) {
+    switch (type) {
+      case 'directions':
+        return RoundButton(() {}, Icons.directions, Strings.directions);
+      case 'call':
+        return RoundButton(() {}, Icons.call, Strings.call);
+      case 'here':
+        return RoundButton(() {}, Icons.flag, Strings.iAmHere);
+      default:
+        assert(false, "Unknown type");
+        return null;
+    }
   }
 
   Widget _divider(BuildContext context) => Divider(
@@ -161,15 +185,6 @@ class _TimeSectionState extends State<_TimeSection> {
         fontSize: 13,
         color: Colors.grey[500],
       );
-}
-
-class DeliveryPageActions extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[RoundButton('CALL'), RoundButton('NAVIGATE')],
-    );
-  }
 }
 
 class DeliveryPageOrders extends StatelessWidget {
