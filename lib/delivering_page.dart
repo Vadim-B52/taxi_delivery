@@ -24,7 +24,7 @@ class DeliveryPage extends StatelessWidget {
           _divider(context),
           _actionsSection(context),
           _divider(context),
-          DeliveryPageOrders()
+          _ordersSection(context),
         ],
       ),
     );
@@ -69,18 +69,50 @@ class DeliveryPage extends StatelessWidget {
   Widget _action(String type) {
     switch (type) {
       case 'directions':
-        return RoundButton(() {}, Icons.directions, Strings.directions);
+        return FloatingActionButton(
+          onPressed: () => {},
+          child: Icon(Icons.directions),
+          tooltip: Strings.directions,
+        );
       case 'call':
-        return RoundButton(() {}, Icons.call, Strings.call);
+        return FloatingActionButton(
+          onPressed: () => {},
+          child: Icon(Icons.call),
+          tooltip: Strings.call,
+        );
       case 'here':
-        return RoundButton(() {}, Icons.flag, Strings.iAmHere);
+        return FloatingActionButton(
+          onPressed: () => {},
+          child: Icon(Icons.flag),
+          tooltip: Strings.iAmHere,
+        );
       default:
         assert(false, "Unknown type");
         return null;
     }
   }
 
-  Widget _divider(BuildContext context) => Divider(
+  Widget _ordersSection(BuildContext context) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Container(
+        child: Text(
+          Strings.orders,
+          textAlign: TextAlign.start,
+          style: TextStyle(
+            fontSize: 17,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        padding: const EdgeInsets.all(2 * _UI.m),
+      ),
+      _OrderItem.defaultItem(),
+      _OrderItem.defaultItem(),
+      _OrderItem.defaultItem(),
+    ]);
+  }
+
+  Widget _divider(BuildContext context) =>
+      Divider(
         indent: 2 * _UI.m,
         endIndent: 2 * _UI.m,
       );
@@ -114,7 +146,8 @@ class _TimeSectionState extends State<_TimeSection> {
     updateMinutesLeft();
     _timer = Timer.periodic(
         oneSec,
-        (Timer timer) => setState(() {
+            (Timer timer) =>
+            setState(() {
               updateMinutesLeft();
             }));
   }
@@ -159,9 +192,10 @@ class _TimeSectionState extends State<_TimeSection> {
     );
   }
 
-  String deliveryTimeText() => _timeLeft.inSeconds % 2 == 0
-      ? DateFormat("HH:mm").format(deliveryDate)
-      : DateFormat("HH mm").format(deliveryDate);
+  String deliveryTimeText() =>
+      _timeLeft.inSeconds % 2 == 0
+          ? DateFormat("HH:mm").format(deliveryDate)
+          : DateFormat("HH mm").format(deliveryDate);
 
   TextStyle timeLeftTextStyle() {
     if (deliveryDate.compareTo(DateTime.now()) > 0) {
@@ -170,26 +204,116 @@ class _TimeSectionState extends State<_TimeSection> {
     return noTimeTextStyle();
   }
 
-  TextStyle timeTextStyle() => TextStyle(
+  TextStyle timeTextStyle() =>
+      TextStyle(
         fontSize: 21,
         fontWeight: FontWeight.bold,
       );
 
-  TextStyle noTimeTextStyle() => TextStyle(
+  TextStyle noTimeTextStyle() =>
+      TextStyle(
         fontSize: 21,
         fontWeight: FontWeight.bold,
         color: Colors.red,
       );
 
-  TextStyle detailsTextStyle() => TextStyle(
+  TextStyle detailsTextStyle() =>
+      TextStyle(
         fontSize: 13,
         color: Colors.grey[500],
       );
 }
 
-class DeliveryPageOrders extends StatelessWidget {
+class _OrderItem extends StatelessWidget {
+  bool isMarked;
+  String recipientInitials;
+  String recipientName;
+  String orderSummary;
+  String orderStatus;
+
+  _OrderItem(this.isMarked, this.recipientInitials, this.recipientName,
+      this.orderSummary, this.orderStatus);
+
+  static _OrderItem defaultItem() {
+    return _OrderItem(true, 'DH', 'Doctor House',
+        'Order #1234, 1 item', 'wait delivery');
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Text('Orders');
+    return Container(
+        padding:
+        EdgeInsets.only(left: 2 * _UI.m, right: 2 * _UI.m, bottom: _UI.m),
+        child: Container(
+          decoration: BoxDecoration(
+            border: _buildBorder(),
+          ),
+          child: Row(
+            children: [
+              Container(
+                padding: EdgeInsets.all(2 * _UI.m),
+                child: _buildInitials(),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    recipientName,
+                  ),
+                  Text(
+                    orderSummary,
+                  ),
+                  Text(
+                    orderStatus,
+                  )
+                ],
+              ),
+              Spacer(),
+              Icon(
+                Icons.info,
+              ),
+            ],
+          ),
+        ));
   }
+
+  Border _buildBorder() =>
+      Border(
+        left: BorderSide(
+          width: _UI.m,
+          color: Colors.yellow,
+        ),
+        right: _buildBorderSide(),
+        top: _buildBorderSide(),
+        bottom: _buildBorderSide(),
+      );
+
+  Container _buildInitials() =>
+      Container(
+        width: 60,
+        height: 60,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.red,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              recipientInitials,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.normal,
+                fontSize: 24,
+              ),
+            )
+          ],
+        ),
+      );
+
+  BorderSide _buildBorderSide() =>
+      BorderSide(
+        color: Colors.grey[300],
+      );
 }
