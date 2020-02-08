@@ -12,21 +12,36 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: DeliveryPage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => ListOfPages(),
+        'delivery_page': (context) => DeliveryPage(),
+      },
     );
   }
 }
 
-
-//class MyHomePage extends StatelessWidget {
-//  @override
-//  Widget build(BuildContext context) {
-//    return Scaffold(
-//      body: Center(
-//        child: DeliveryPage(),
-//      ),
-////      body: ,
-//    );
-//  }
-//
-//}
+class ListOfPages extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('List of Pages'),
+      ),
+      body: ListView.builder(
+        itemCount: 1,
+        itemBuilder: (BuildContext context, int index) {
+          switch (index) {
+            case 0:
+              return RaisedButton(
+                onPressed: () => Navigator.pushNamed(context, 'delivery_page'),
+                child: Text('Delivery Page'),
+              );
+            default:
+              return null;
+          }
+        },
+      ),
+    );
+  }
+}

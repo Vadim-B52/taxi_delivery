@@ -16,6 +16,7 @@ class DeliveryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text('Delivery Page')),
       body: ListView(
         children: <Widget>[
           _addressSection(context),
@@ -69,22 +70,28 @@ class DeliveryPage extends StatelessWidget {
   Widget _action(String type) {
     switch (type) {
       case 'directions':
-        return FloatingActionButton(
+        return RawMaterialButton(
           onPressed: () => {},
           child: Icon(Icons.directions),
-          tooltip: Strings.directions,
+          shape: CircleBorder(),
+          fillColor: Colors.grey[300],
+          padding: const EdgeInsets.all(15.0),
         );
       case 'call':
-        return FloatingActionButton(
+        return RawMaterialButton(
           onPressed: () => {},
           child: Icon(Icons.call),
-          tooltip: Strings.call,
+          shape: CircleBorder(),
+          fillColor: Colors.grey[300],
+          padding: const EdgeInsets.all(15.0),
         );
       case 'here':
-        return FloatingActionButton(
+        return RawMaterialButton(
           onPressed: () => {},
           child: Icon(Icons.flag),
-          tooltip: Strings.iAmHere,
+          shape: CircleBorder(),
+          fillColor: Colors.grey[300],
+          padding: const EdgeInsets.all(15.0),
         );
       default:
         assert(false, "Unknown type");
@@ -108,11 +115,13 @@ class DeliveryPage extends StatelessWidget {
       _OrderItem.defaultItem(),
       _OrderItem.defaultItem(),
       _OrderItem.defaultItem(),
+      _OrderItem.defaultItem(),
+      _OrderItem.defaultItem(),
+      _OrderItem.defaultItem(),
     ]);
   }
 
-  Widget _divider(BuildContext context) =>
-      Divider(
+  Widget _divider(BuildContext context) => Divider(
         indent: 2 * _UI.m,
         endIndent: 2 * _UI.m,
       );
@@ -146,8 +155,7 @@ class _TimeSectionState extends State<_TimeSection> {
     updateMinutesLeft();
     _timer = Timer.periodic(
         oneSec,
-            (Timer timer) =>
-            setState(() {
+        (Timer timer) => setState(() {
               updateMinutesLeft();
             }));
   }
@@ -192,10 +200,9 @@ class _TimeSectionState extends State<_TimeSection> {
     );
   }
 
-  String deliveryTimeText() =>
-      _timeLeft.inSeconds % 2 == 0
-          ? DateFormat("HH:mm").format(deliveryDate)
-          : DateFormat("HH mm").format(deliveryDate);
+  String deliveryTimeText() => _timeLeft.inSeconds % 2 == 0
+      ? DateFormat("HH:mm").format(deliveryDate)
+      : DateFormat("HH mm").format(deliveryDate);
 
   TextStyle timeLeftTextStyle() {
     if (deliveryDate.compareTo(DateTime.now()) > 0) {
@@ -204,21 +211,18 @@ class _TimeSectionState extends State<_TimeSection> {
     return noTimeTextStyle();
   }
 
-  TextStyle timeTextStyle() =>
-      TextStyle(
+  TextStyle timeTextStyle() => TextStyle(
         fontSize: 21,
         fontWeight: FontWeight.bold,
       );
 
-  TextStyle noTimeTextStyle() =>
-      TextStyle(
+  TextStyle noTimeTextStyle() => TextStyle(
         fontSize: 21,
         fontWeight: FontWeight.bold,
         color: Colors.red,
       );
 
-  TextStyle detailsTextStyle() =>
-      TextStyle(
+  TextStyle detailsTextStyle() => TextStyle(
         fontSize: 13,
         color: Colors.grey[500],
       );
@@ -235,15 +239,19 @@ class _OrderItem extends StatelessWidget {
       this.orderSummary, this.orderStatus);
 
   static _OrderItem defaultItem() {
-    return _OrderItem(true, 'DH', 'Doctor House',
-        'Order #1234, 1 item', 'wait delivery');
+    return _OrderItem(
+        true,
+        'DH',
+        'Doctor House Doctor House Doctor House Doctor House',
+        'Order #1234, 1 item',
+        'wait delivery');
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
         padding:
-        EdgeInsets.only(left: 2 * _UI.m, right: 2 * _UI.m, bottom: _UI.m),
+            EdgeInsets.only(left: 2 * _UI.m, right: 2 * _UI.m, bottom: _UI.m),
         child: Container(
           decoration: BoxDecoration(
             border: _buildBorder(),
@@ -254,31 +262,32 @@ class _OrderItem extends StatelessWidget {
                 padding: EdgeInsets.all(2 * _UI.m),
                 child: _buildInitials(),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    recipientName,
-                  ),
-                  Text(
-                    orderSummary,
-                  ),
-                  Text(
-                    orderStatus,
-                  )
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      recipientName,
+                    ),
+                    Text(
+                      orderSummary,
+                    ),
+                    Text(
+                      orderStatus,
+                    )
+                  ],
+                ),
               ),
-              Spacer(),
-              Icon(
-                Icons.info,
-              ),
+              Container(
+                padding: EdgeInsets.all(_UI.m),
+                child: Icon(Icons.info),
+              )
             ],
           ),
         ));
   }
 
-  Border _buildBorder() =>
-      Border(
+  Border _buildBorder() => Border(
         left: BorderSide(
           width: _UI.m,
           color: Colors.yellow,
@@ -288,8 +297,7 @@ class _OrderItem extends StatelessWidget {
         bottom: _buildBorderSide(),
       );
 
-  Container _buildInitials() =>
-      Container(
+  Container _buildInitials() => Container(
         width: 60,
         height: 60,
         decoration: BoxDecoration(
@@ -312,8 +320,7 @@ class _OrderItem extends StatelessWidget {
         ),
       );
 
-  BorderSide _buildBorderSide() =>
-      BorderSide(
+  BorderSide _buildBorderSide() => BorderSide(
         color: Colors.grey[300],
       );
 }
