@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'delivering_page.dart';
+import 'map_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,7 +16,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => ListOfPages(),
-        'delivery_page': (context) => DeliveryPage(),
+        '/delivery_page': (context) => DeliveryPage(),
+        '/map': (context) => MapPage(),
       },
     );
   }
@@ -28,19 +30,17 @@ class ListOfPages extends StatelessWidget {
       appBar: AppBar(
         title: Text('List of Pages'),
       ),
-      body: ListView.builder(
-        itemCount: 1,
-        itemBuilder: (BuildContext context, int index) {
-          switch (index) {
-            case 0:
-              return RaisedButton(
-                onPressed: () => Navigator.pushNamed(context, 'delivery_page'),
-                child: Text('Delivery Page'),
-              );
-            default:
-              return null;
-          }
-        },
+      body: ListView(
+        children: <Widget>[
+          RaisedButton(
+            onPressed: () => Navigator.pushNamed(context, '/delivery_page'),
+            child: Text('Delivery Page'),
+          ),
+          RaisedButton(
+            onPressed: () => Navigator.pushNamed(context, '/map'),
+            child: Text('Map Page'),
+          ),
+        ],
       ),
     );
   }
