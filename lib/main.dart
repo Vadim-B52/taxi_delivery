@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'sliding_page.dart';
 import 'delivering_page.dart';
 import 'map_page.dart';
 
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => ListOfPages(),
         '/delivery_page': (context) => DeliveryPage(),
         '/map': (context) => MapPage(),
+        '/sliding': (context) => SlidingPage(),
       },
     );
   }
@@ -39,6 +41,10 @@ class ListOfPages extends StatelessWidget {
           RaisedButton(
             onPressed: () => Navigator.pushNamed(context, '/map'),
             child: Text('Map Page'),
+          ),
+          RaisedButton(
+            onPressed: () => Navigator.pushNamed(context, '/sliding'),
+            child: Text('Slide Page'),
           ),
         ],
       ),

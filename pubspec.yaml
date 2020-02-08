@@ -22,9 +22,12 @@ dependencies:
   intl: ^0.15.7
   google_maps_flutter: any
 
+  #https://pub.dev/packages/sliding_up_panel
+  sliding_up_panel: ^1.0.0
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-#  cupertino_icons: ^0.1.2
+  #  cupertino_icons: ^0.1.2
 
 dev_dependencies:
   flutter_test:
