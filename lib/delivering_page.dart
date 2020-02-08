@@ -268,13 +268,29 @@ class _OrderItem extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       recipientName,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     Text(
                       orderSummary,
+                      style: TextStyle(
+                        fontSize: 14,
+                      ),
                     ),
-                    Text(
-                      orderStatus,
-                    )
+                    Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: Colors.amberAccent,
+                      ),
+                      child: Text(
+                        orderStatus,
+                        style: TextStyle(
+                          fontSize: 13,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

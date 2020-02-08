@@ -41,10 +41,10 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
-  assets:
-    - images/btn_call.png
-    - images/btn_directions.png
-    - images/btn_iamhere.png
+  #assets:
+  #  - images/btn_call.png
+  #  - images/btn_directions.png
+  #  - images/btn_iamhere.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
