@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'common_widgets.dart';
 import 'strings.dart';
 
 class _UI {
@@ -151,6 +150,7 @@ class _TimeSectionState extends State<_TimeSection> {
 
   @override
   void initState() {
+    super.initState();
     const oneSec = const Duration(seconds: 1);
     updateMinutesLeft();
     _timer = Timer.periodic(
@@ -229,11 +229,11 @@ class _TimeSectionState extends State<_TimeSection> {
 }
 
 class _OrderItem extends StatelessWidget {
-  bool isMarked;
-  String recipientInitials;
-  String recipientName;
-  String orderSummary;
-  String orderStatus;
+  final bool isMarked;
+  final String recipientInitials;
+  final String recipientName;
+  final String orderSummary;
+  final String orderStatus;
 
   _OrderItem(this.isMarked, this.recipientInitials, this.recipientName,
       this.orderSummary, this.orderStatus);
