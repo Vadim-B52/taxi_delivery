@@ -5,7 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../adventures/b/pickup_adventure.dart';
+import '../adventures/pickup_adventure.dart';
 import '../strings.dart';
 import '../widgets/card_header.dart';
 import '../widgets/common.dart';
@@ -16,7 +16,7 @@ class PickupPageArguments {
   PickupPageArguments({this.route});
 }
 
-class PickupPage extends StatelessWidget {
+class TodayRoutePage extends StatelessWidget {
   final CameraPosition _moscow = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14,

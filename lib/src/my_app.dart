@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'adventures/b/pickup_adventure.dart';
-import 'screens/pickup_page.dart';
+import 'adventures/pickup_adventure.dart';
+import 'screens/today_route_page.dart';
 import 'delivering_page.dart';
 import 'map_page.dart';
 import 'sliding_page.dart';
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         '/delivery_page': (context) => DeliveryPage(),
         '/map': (context) => MapPage(),
         '/sliding': (context) => SlidingPage(),
-        '/pickup': (context) => PickupPage()
+        '/pickup': (context) => TodayRoutePage()
       },
     );
   }
