@@ -1,6 +1,8 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
+
 import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
+
 import 'strings.dart';
 
 class _UI {
@@ -32,7 +34,7 @@ class DeliveryPage extends StatelessWidget {
 
   Widget _addressSection(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(2 * _UI.m),
+      padding: EdgeInsets.all(2 * _UI.m),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -45,7 +47,7 @@ class DeliveryPage extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            padding: const EdgeInsets.only(bottom: 0.5 * _UI.m),
+            padding: EdgeInsets.only(bottom: 0.5 * _UI.m),
           ),
           Text(
             addressText,
@@ -59,7 +61,7 @@ class DeliveryPage extends StatelessWidget {
 
   Widget _actionsSection(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.all(2 * _UI.m),
+        padding: EdgeInsets.all(2 * _UI.m),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: actions.map(this._action).where((x) => x != null).toList(),
@@ -74,7 +76,7 @@ class DeliveryPage extends StatelessWidget {
           child: Icon(Icons.directions),
           shape: CircleBorder(),
           fillColor: Colors.grey[300],
-          padding: const EdgeInsets.all(15.0),
+          padding: EdgeInsets.all(15.0),
         );
       case 'call':
         return RawMaterialButton(
@@ -82,7 +84,7 @@ class DeliveryPage extends StatelessWidget {
           child: Icon(Icons.call),
           shape: CircleBorder(),
           fillColor: Colors.grey[300],
-          padding: const EdgeInsets.all(15.0),
+          padding: EdgeInsets.all(15.0),
         );
       case 'here':
         return RawMaterialButton(
@@ -90,7 +92,7 @@ class DeliveryPage extends StatelessWidget {
           child: Icon(Icons.flag),
           shape: CircleBorder(),
           fillColor: Colors.grey[300],
-          padding: const EdgeInsets.all(15.0),
+          padding: EdgeInsets.all(15.0),
         );
       default:
         assert(false, "Unknown type");
@@ -109,7 +111,7 @@ class DeliveryPage extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        padding: const EdgeInsets.all(2 * _UI.m),
+        padding: EdgeInsets.all(2 * _UI.m),
       ),
       _OrderItem.defaultItem(),
       _OrderItem.defaultItem(),
@@ -151,7 +153,7 @@ class _TimeSectionState extends State<_TimeSection> {
   @override
   void initState() {
     super.initState();
-    const oneSec = const Duration(seconds: 1);
+    final oneSec = Duration(seconds: 1);
     updateMinutesLeft();
     _timer = Timer.periodic(
         oneSec,
@@ -167,7 +169,7 @@ class _TimeSectionState extends State<_TimeSection> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(2 * _UI.m),
+      padding: EdgeInsets.all(2 * _UI.m),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -280,7 +282,7 @@ class _OrderItem extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.all(4),
+                      padding: EdgeInsets.all(4),
                       decoration: BoxDecoration(
                         color: Colors.amberAccent,
                       ),
