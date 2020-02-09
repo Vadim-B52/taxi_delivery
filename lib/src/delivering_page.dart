@@ -3,11 +3,9 @@ import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
+import 'widgets/common.dart';
 import 'strings.dart';
-
-class _UI {
-  static const double m = 8;
-}
+import 'widgets/card_header.dart';
 
 class DeliveryPage extends StatelessWidget {
   final String addressText = 'улица Льва Толстого, 16\nМосква, Хамовники';
@@ -21,11 +19,11 @@ class DeliveryPage extends StatelessWidget {
       body: ListView(
         children: <Widget>[
           _addressSection(context),
-          _divider(context),
+          Dividers.divider(),
           _TimeSection(deliveryDate),
-          _divider(context),
+          Dividers.divider(),
           _actionsSection(context),
-          _divider(context),
+          Dividers.divider(),
           _ordersSection(context),
         ],
       ),
@@ -33,35 +31,15 @@ class DeliveryPage extends StatelessWidget {
   }
 
   Widget _addressSection(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(2 * _UI.m),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            child: Text(
-              Strings.deliverToTheAddress,
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            padding: EdgeInsets.only(bottom: 0.5 * _UI.m),
-          ),
-          Text(
-            addressText,
-            textAlign: TextAlign.start,
-            style: TextStyle(fontSize: 15),
-          ),
-        ],
-      ),
+    return TitleDetailsCardHeader(
+      title: Strings.deliverToTheAddress,
+      details: addressText,
     );
   }
 
   Widget _actionsSection(BuildContext context) {
     return Container(
-        padding: EdgeInsets.all(2 * _UI.m),
+        padding: EdgeInsets.all(2 * UI.m),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: actions.map(this._action).where((x) => x != null).toList(),
@@ -111,7 +89,7 @@ class DeliveryPage extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        padding: EdgeInsets.all(2 * _UI.m),
+        padding: EdgeInsets.all(2 * UI.m),
       ),
       _OrderItem.defaultItem(),
       _OrderItem.defaultItem(),
@@ -122,10 +100,6 @@ class DeliveryPage extends StatelessWidget {
     ]);
   }
 
-  Widget _divider(BuildContext context) => Divider(
-        indent: 2 * _UI.m,
-        endIndent: 2 * _UI.m,
-      );
 }
 
 class _TimeSection extends StatefulWidget {
@@ -169,7 +143,7 @@ class _TimeSectionState extends State<_TimeSection> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(2 * _UI.m),
+      padding: EdgeInsets.all(2 * UI.m),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -253,7 +227,7 @@ class _OrderItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         padding:
-            EdgeInsets.only(left: 2 * _UI.m, right: 2 * _UI.m, bottom: _UI.m),
+            EdgeInsets.only(left: 2 * UI.m, right: 2 * UI.m, bottom: UI.m),
         child: Container(
           decoration: BoxDecoration(
             border: _buildBorder(),
@@ -261,7 +235,7 @@ class _OrderItem extends StatelessWidget {
           child: Row(
             children: [
               Container(
-                padding: EdgeInsets.all(2 * _UI.m),
+                padding: EdgeInsets.all(2 * UI.m),
                 child: _buildInitials(),
               ),
               Expanded(
@@ -297,7 +271,7 @@ class _OrderItem extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: EdgeInsets.all(_UI.m),
+                padding: EdgeInsets.all(UI.m),
                 child: Icon(Icons.info),
               )
             ],
@@ -307,7 +281,7 @@ class _OrderItem extends StatelessWidget {
 
   Border _buildBorder() => Border(
         left: BorderSide(
-          width: _UI.m,
+          width: UI.m,
           color: Colors.yellow,
         ),
         right: _buildBorderSide(),
