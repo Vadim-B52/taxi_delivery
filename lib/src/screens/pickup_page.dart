@@ -24,16 +24,13 @@ class PickupPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PickupPageArguments args = ModalRoute
-        .of(context)
-        .settings
-        .arguments;
+    final PickupPageArguments args = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
       appBar: AppBar(),
       body: SlidingUpPanel(
         body: _buildMap(),
-        panel: _buildCard(args.route),
+        panel: _buildCard(context, args.route),
       ),
     );
   }
@@ -45,20 +42,30 @@ class PickupPage extends StatelessWidget {
     );
   }
 
-  Widget _buildCard(PickupRoute route) {
+  Widget _buildCard(BuildContext context, PickupRoute route) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          TitleCardHeader(Strings.todayRoute)
-        ] +
+              TitleCardHeader(Strings.todayRoute),
+              _buildStoreItem(context, route.store.shortText, route.store.dateTime),
+              Dividers.divider(),
+            ] +
             _buildRouteItems(route) +
-            [
-              RaisedButton(
-                onPressed: () {},
-                child: Text(Strings.pickupParcels),
-              ),
-            ],
+            [_buildPickupButton()],
+      ),
+    );
+  }
+
+  Widget _buildPickupButton() {
+    return Container(
+      padding: const EdgeInsets.all(2 * UI.m),
+      child: RaisedButton(
+        onPressed: () {},
+        child: Container(
+          padding: EdgeInsets.all(2 * UI.m),
+          child: Text(Strings.pickupParcels),
+        ),
       ),
     );
   }
@@ -66,35 +73,73 @@ class PickupPage extends StatelessWidget {
   List<Widget> _buildRouteItems(PickupRoute route) {
     final items = <Widget>[];
     final store = route.store;
-    items.add(_buildRouteItem(Icons.store, store.shortText, store.dateTime));
-    items.add(Divider());
     route.deliveryRoute.forEach((itm) {
-      items.add(_buildRouteItem(
-          Icons.radio_button_checked, itm.shortText, itm.dateTime));
-      items.add(Divider());
+      items.add(_buildRouteItem(itm.shortText, itm.dateTime));
+      items.add(Dividers.divider());
     });
     return items;
   }
 
-  Widget _buildRouteItem(IconData icon, String text, DateTime time) {
-    return Row(
-      children: <Widget>[
-        Container(
-          child: Icon(icon),
-        ),
-        Expanded(
-          child: Container(
-              padding: EdgeInsets.all(16),
-              child: Text(
-                text,
-                style: TextStyles.textStyleRegular(),
-              )),
-        ),
-        Text(
-          DateFormat('HH:mm').format(time),
-          textAlign: TextAlign.end,
-        ),
-      ],
+  Widget _buildStoreItem(BuildContext context, String text, DateTime time) {
+    return Container(
+      padding: const EdgeInsets.only(left: 2 * UI.m, right: 2 * UI.m),
+      child: Row(
+        children: <Widget>[
+          Container(
+            child: Icon(Icons.store),
+          ),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(2 * UI.m),
+              child: RichText(
+                text: TextSpan(
+                  style: TextStyle(color: Colors.black),
+                  children: [
+                    TextSpan(
+                      text: Strings.pickup,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    TextSpan(
+                      text: text,
+                      style: TextStyles.textStyleRegular(),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          _buildTimeText(time),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRouteItem(String text, DateTime time) {
+    return Container(
+      padding: const EdgeInsets.only(left: 2 * UI.m, right: 2 * UI.m),
+      child: Row(
+        children: <Widget>[
+          Container(
+            child: Icon(Icons.radio_button_checked),
+          ),
+          Expanded(
+            child: Container(
+                padding: const EdgeInsets.all(2 * UI.m),
+                child: Text(
+                  text,
+                  style: TextStyles.textStyleRegular(),
+                )),
+          ),
+          _buildTimeText(time),
+        ],
+      ),
+    );
+  }
+
+  Text _buildTimeText(DateTime time) {
+    return Text(
+      DateFormat('HH:mm').format(time),
+      textAlign: TextAlign.end,
     );
   }
 }
