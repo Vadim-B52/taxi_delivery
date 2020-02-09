@@ -19,14 +19,14 @@ class TitleDetailsCardHeader extends StatelessWidget {
             child: Text(
               title,
               textAlign: TextAlign.start,
-              style: TextStyles.textStyleSectionHeader(),
+              style: Theme.of(context).textTheme.title,
             ),
             padding: EdgeInsets.only(bottom: 0.5 * UI.m),
           ),
           Text(
             details,
             textAlign: TextAlign.start,
-            style: TextStyles.textStyleRegular(),
+            style: Theme.of(context).textTheme.subhead,
           ),
         ],
       ),
@@ -50,7 +50,7 @@ class TitleCardHeader extends StatelessWidget {
             child: Text(
               title,
               textAlign: TextAlign.start,
-              style: TextStyles.textStyleSectionHeader(),
+              style: Theme.of(context).textTheme.title,
             ),
             padding: EdgeInsets.only(bottom: 0.5 * UI.m),
           ),
@@ -75,7 +75,7 @@ class DetailsCardHeader extends StatelessWidget {
           Text(
             details,
             textAlign: TextAlign.start,
-            style: TextStyles.textStyleRegular(),
+            style: Theme.of(context).textTheme.subhead,
           ),
         ],
       ),

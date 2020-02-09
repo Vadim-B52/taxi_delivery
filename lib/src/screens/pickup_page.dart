@@ -51,7 +51,7 @@ class PickupPage extends StatelessWidget {
               _buildStoreItem(context, route.store.shortText, route.store.dateTime),
               Dividers.divider(),
             ] +
-            _buildRouteItems(route) +
+            _buildRouteItems(context, route) +
             [_buildPickupButton()],
       ),
     );
@@ -70,11 +70,11 @@ class PickupPage extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildRouteItems(PickupRoute route) {
+  List<Widget> _buildRouteItems(BuildContext context, PickupRoute route) {
     final items = <Widget>[];
     final store = route.store;
     route.deliveryRoute.forEach((itm) {
-      items.add(_buildRouteItem(itm.shortText, itm.dateTime));
+      items.add(_buildRouteItem(context, itm.shortText, itm.dateTime));
       items.add(Dividers.divider());
     });
     return items;
@@ -97,11 +97,11 @@ class PickupPage extends StatelessWidget {
                   children: [
                     TextSpan(
                       text: Strings.pickup,
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: Theme.of(context).textTheme.body2,
                     ),
                     TextSpan(
                       text: text,
-                      style: TextStyles.textStyleRegular(),
+                      style: Theme.of(context).textTheme.body1,
                     ),
                   ],
                 ),
@@ -114,7 +114,7 @@ class PickupPage extends StatelessWidget {
     );
   }
 
-  Widget _buildRouteItem(String text, DateTime time) {
+  Widget _buildRouteItem(BuildContext context, String text, DateTime time) {
     return Container(
       padding: const EdgeInsets.only(left: 2 * UI.m, right: 2 * UI.m),
       child: Row(
@@ -127,7 +127,7 @@ class PickupPage extends StatelessWidget {
                 padding: const EdgeInsets.all(2 * UI.m),
                 child: Text(
                   text,
-                  style: TextStyles.textStyleRegular(),
+                  style: Theme.of(context).textTheme.body1,
                 )),
           ),
           _buildTimeText(time),

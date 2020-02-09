@@ -4,15 +4,6 @@ class UI {
   static const double m = 8;
 }
 
-class TextStyles {
-  static TextStyle textStyleSectionHeader() => TextStyle(
-        fontSize: 17,
-        fontWeight: FontWeight.bold,
-      );
-
-  static TextStyle textStyleRegular() => TextStyle(fontSize: 15);
-}
-
 class Dividers {
   static Widget divider() => Divider(
         indent: 2 * UI.m,
