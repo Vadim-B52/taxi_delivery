@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taxi_delivery/src/domain/my_tasks.dart';
+import 'package:taxi_delivery/src/screens/begin_pickup_page.dart';
 import 'package:taxi_delivery/src/screens/navigate_to_pickup_page.dart';
 import 'package:taxi_delivery/src/screens/starting_page.dart';
-import 'package:taxi_delivery/src/screens/navigate_store_page.dart';
+import 'package:taxi_delivery/src/legacy/navigate_store_page.dart';
 
-import 'adventures/pickup_adventure.dart';
-import 'screens/today_route_page.dart';
-import 'screens/delivering_page.dart';
+import 'legacy/pickup_adventure.dart';
+import 'legacy/today_route_page.dart';
+import 'legacy/delivering_page.dart';
 import 'map_page.dart';
 import 'sliding_page.dart';
 
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
           );
         },
         '/navigate_to_pickup': (context) => NavigateToPickupPage(),
+        '/begin_pickup': (context) => BeginPickupPage(),
       },
     );
   }

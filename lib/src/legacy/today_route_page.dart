@@ -5,7 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../adventures/pickup_adventure.dart';
+import 'pickup_adventure.dart';
 import '../strings.dart';
 import '../widgets/card_header.dart';
 import '../widgets/common.dart';

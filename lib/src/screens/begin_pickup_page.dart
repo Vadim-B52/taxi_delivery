@@ -1,28 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:taxi_delivery/src/screens/begin_pickup_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../strings.dart';
 import '../widgets/card_header.dart';
 import '../widgets/common.dart';
 import '../domain/domain.dart';
-import '../widgets/time_section.dart';
 
-class NavigateToPickupPageArguments {
+class BeginPickupPageArguments {
   final Minitask minitask;
 
-  NavigateToPickupPageArguments({this.minitask});
+  BeginPickupPageArguments({this.minitask});
 }
 
-class NavigateToPickupPage extends StatelessWidget {
-//  <a href="yandexnavi://">Открыть Яндекс.Навигатор</a>
-//  <a href="yandexmaps://maps.yandex.ru/?ll=37.62,55.75&z=12">Открыть карту
-  final List<String> contextActions = ['directions', 'here'];
+class BeginPickupPage extends StatelessWidget {
+
+  final List<String> contextActions = ['call'];
 
   @override
   Widget build(BuildContext context) {
-    final NavigateToPickupPageArguments args =
-        ModalRoute.of(context).settings.arguments;
+    final BeginPickupPageArguments args = ModalRoute.of(context).settings.arguments;
     final minitask = args.minitask;
 
     return Scaffold(
@@ -31,9 +27,7 @@ class NavigateToPickupPage extends StatelessWidget {
         children: <Widget>[
           _addressSection(context, minitask),
           Dividers.divider(),
-          TimeSection(DateTime(2020, 04, 12)),
-          Dividers.divider(),
-          _actionsSection(context, minitask),
+          _actionsSection(context),
           Dividers.divider(),
           _nextAction(),
           _callToCenterAction(),
@@ -47,35 +41,36 @@ class NavigateToPickupPage extends StatelessWidget {
     return TitleCardHeader(minitask.address.shortText);
   }
 
-  Widget _actionsSection(BuildContext context, Minitask minitask) {
+  Widget _actionsSection(BuildContext context) {
     return Container(
         padding: EdgeInsets.all(2 * UI.m),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: contextActions
-              .map<Widget>((action) => _action(context, minitask, action))
-              .where((x) => x != null)
-              .toList(),
+          children: contextActions.map(this._action).where((x) => x != null).toList(),
         ));
   }
 
-  Widget _action(BuildContext context, Minitask minitask, String type) {
+  Widget _action(String type) {
     switch (type) {
       case 'directions':
         return RawMaterialButton(
-          onPressed: () => launch("yandexnavi://"),
+          onPressed: () => {},
           child: Icon(Icons.directions),
+          shape: CircleBorder(),
+          fillColor: Colors.grey[300],
+          padding: EdgeInsets.all(15.0),
+        );
+      case 'call':
+        return RawMaterialButton(
+          onPressed: () => {},
+          child: Icon(Icons.call),
           shape: CircleBorder(),
           fillColor: Colors.grey[300],
           padding: EdgeInsets.all(15.0),
         );
       case 'here':
         return RawMaterialButton(
-          onPressed: () => Navigator.pushNamed(
-            context,
-            '/begin_pickup',
-            arguments: BeginPickupPageArguments(minitask: minitask),
-          ),
+          onPressed: () => {},
           child: Icon(Icons.flag),
           shape: CircleBorder(),
           fillColor: Colors.grey[300],
@@ -88,17 +83,19 @@ class NavigateToPickupPage extends StatelessWidget {
   }
 
   Widget _nextAction() => RaisedButton(
-        onPressed: null,
-        child: Text(Strings.beginParcelAcceptance),
-      );
+    onPressed: () => {},
+    child: Text(Strings.beginParcelAcceptance),
+  );
 
   Widget _callToCenterAction() => RaisedButton(
-        onPressed: () => launch("tel://21213123123"),
-        child: Text(Strings.callToCenter),
-      );
+    onPressed: () => launch("tel://21213123123"),
+    child: Text(Strings.callToCenter),
+  );
 
   Widget _backAction(BuildContext context) => RaisedButton(
-        onPressed: () => Navigator.pop(context),
-        child: Text(Strings.back),
-      );
+    onPressed: () => Navigator.pop(context),
+    child: Text(Strings.back),
+  );
+
 }
+
