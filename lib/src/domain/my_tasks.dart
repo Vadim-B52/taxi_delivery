@@ -23,6 +23,7 @@ class MyTasks extends ChangeNotifier {
     notifyListeners();
     final tasksState = await getTasks(_endpointProvider.endpoint);
     _currentState = tasksState;
+    _isUpToDate = true;
     _error = null;
     notifyListeners();
   }

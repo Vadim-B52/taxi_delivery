@@ -1,7 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../domain/my_tasks.dart';
 
@@ -10,35 +9,49 @@ import '../strings.dart';
 import '../widgets/card_header.dart';
 import '../widgets/common.dart';
 
-class ApplicationMainArguments {
-  final RouteItem store;
-
-  ApplicationMainArguments({this.store});
-}
-
 class ApplicationMain extends StatelessWidget {
-
-  final MyTasks tasks = new MyTasks();
-
   @override
   Widget build(BuildContext context) {
-
-    tasks.fetch();
-
-    final ApplicationMainArguments args = ModalRoute.of(context).settings.arguments;
-
     return Scaffold(
       appBar: AppBar(),
-      body: _buildCard(context, args.store),
+      body: _buildTasksState(),
     );
   }
 
-  Widget _buildCard(BuildContext context, RouteItem store) {
+  // FutureBuilder
+  Widget _buildTasksState() {
+    return Consumer<MyTasks>(
+      builder: (context, myTasks, child) {
+        if (myTasks.isUpToDate) {
+          final err = myTasks.error;
+          if (err == null) {
+              return _buildCard(context, myTasks.currentState);
+          } else {
+            return Center(
+              child: Column(
+                children: <Widget>[
+                  Text("Something went wrong"),
+                  RaisedButton(
+                    onPressed: () => myTasks.fetch(),
+                    child: Text('Reload'),
+                  ),
+                ],
+              ),
+            );
+          }
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
+      },
+    );
+  }
+
+  Widget _buildCard(BuildContext context, TasksState state) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          DetailsCardHeader(store.shortText),
+          DetailsCardHeader(state.summary),
           Dividers.divider(),
           _buildStartAcceptanceButton(),
           _buildCallOperatorButton(),

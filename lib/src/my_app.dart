@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:taxi_delivery/src/domain/my_tasks.dart';
 import 'package:taxi_delivery/src/screens/application_main.dart';
 import 'package:taxi_delivery/src/screens/navigate_store_page.dart';
 
@@ -28,7 +30,14 @@ class MyApp extends StatelessWidget {
         '/sliding': (context) => SlidingPage(),
         '/pickup': (context) => TodayRoutePage(),
         '/navigate_store': (context) => NavigateStorePage(),
-        '/application_main': (context) => ApplicationMain(),
+        '/application_main': (context) {
+          final tasks = MyTasks();
+          tasks.fetch();
+          return ChangeNotifierProvider(
+            create: (context) => tasks,
+            child: ApplicationMain(),
+          );
+        },
       },
     );
   }
@@ -67,7 +76,8 @@ class ListOfPages extends StatelessWidget {
             onPressed: () => Navigator.pushNamed(
               context,
               '/navigate_store',
-              arguments: NavigateStorePageArguments(store: PickupRoute.exampleData().store),
+              arguments: NavigateStorePageArguments(
+                  store: PickupRoute.exampleData().store),
             ),
             child: Text('Navigate Store Page'),
           ),
@@ -75,7 +85,6 @@ class ListOfPages extends StatelessWidget {
             onPressed: () => Navigator.pushNamed(
               context,
               '/application_main',
-              arguments: ApplicationMainArguments(store: PickupRoute.exampleData().store),
             ),
             child: Text('Application Main'),
           ),
