@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taxi_delivery/src/domain/my_tasks.dart';
+import 'package:taxi_delivery/src/screens/navigate_to_pickup_page.dart';
 import 'package:taxi_delivery/src/screens/starting_page.dart';
 import 'package:taxi_delivery/src/screens/navigate_store_page.dart';
 
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
             child: StartingPage(),
           );
         },
+        '/navigate_to_pickup': (context) => NavigateToPickupPage(),
       },
     );
   }

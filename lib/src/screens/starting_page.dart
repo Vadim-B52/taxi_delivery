@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taxi_delivery/src/domain/domain.dart';
+import 'package:taxi_delivery/src/screens/navigate_to_pickup_page.dart';
 
 import '../domain/my_tasks.dart';
 
@@ -105,7 +106,14 @@ class StartingPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(2 * UI.m),
       child: RaisedButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(
+            context,
+            '/navigate_to_pickup',
+            arguments: NavigateToPickupPageArguments(
+                minitask: state.tasks.first),
+          );
+        },
         child: Container(
           padding: EdgeInsets.all(2 * UI.m),
           child: Text(Strings.pickupParcels),

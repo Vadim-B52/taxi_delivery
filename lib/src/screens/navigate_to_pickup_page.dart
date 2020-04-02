@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../strings.dart';
 import '../widgets/card_header.dart';
@@ -33,7 +34,7 @@ class NavigateToPickupPage extends StatelessWidget {
           Dividers.divider(),
           _nextAction(),
           _callToCenterAction(),
-          _backAction(),
+          _backAction(context),
         ],
       ),
     );
@@ -90,12 +91,12 @@ class NavigateToPickupPage extends StatelessWidget {
   );
 
   Widget _callToCenterAction() => RaisedButton(
-    onPressed: () => {},
+    onPressed: () => launch("tel://21213123123"),
     child: Text('Позвонить оператору'),
   );
 
-  Widget _backAction() => RaisedButton(
-    onPressed: () => {},
+  Widget _backAction(BuildContext context) => RaisedButton(
+    onPressed: () => Navigator.pop(context),
     child: Text('назад'),
   );
 
