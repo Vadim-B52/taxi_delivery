@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taxi_delivery/src/screens/application_main.dart';
 import 'package:taxi_delivery/src/screens/navigate_store_page.dart';
 
 import 'adventures/pickup_adventure.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         '/sliding': (context) => SlidingPage(),
         '/pickup': (context) => TodayRoutePage(),
         '/navigate_store': (context) => NavigateStorePage(),
+        '/application_main': (context) => ApplicationMain(),
       },
     );
   }
@@ -68,6 +70,14 @@ class ListOfPages extends StatelessWidget {
               arguments: NavigateStorePageArguments(store: PickupRoute.exampleData().store),
             ),
             child: Text('Navigate Store Page'),
+          ),
+          RaisedButton(
+            onPressed: () => Navigator.pushNamed(
+              context,
+              '/application_main',
+              arguments: ApplicationMainArguments(store: PickupRoute.exampleData().store),
+            ),
+            child: Text('Application Main'),
           ),
         ],
       ),
