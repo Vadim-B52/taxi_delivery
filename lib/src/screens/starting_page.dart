@@ -8,7 +8,7 @@ import '../strings.dart';
 import '../widgets/card_header.dart';
 import '../widgets/common.dart';
 
-class ApplicationMain extends StatelessWidget {
+class StartingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taxi_delivery/src/domain/my_tasks.dart';
-import 'package:taxi_delivery/src/screens/application_main.dart';
+import 'package:taxi_delivery/src/screens/starting_page.dart';
 import 'package:taxi_delivery/src/screens/navigate_store_page.dart';
 
 import 'adventures/pickup_adventure.dart';
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
           tasks.fetch();
           return ChangeNotifierProvider(
             create: (context) => tasks,
-            child: ApplicationMain(),
+            child: StartingPage(),
           );
         },
       },
