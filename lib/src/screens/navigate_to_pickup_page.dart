@@ -15,6 +15,8 @@ class NavigateToPickupPageArguments {
 
 class NavigateToPickupPage extends StatelessWidget {
 
+//  <a href="yandexnavi://">Открыть Яндекс.Навигатор</a>
+//  <a href="yandexmaps://maps.yandex.ru/?ll=37.62,55.75&z=12">Открыть карту
   final List<String> contextActions = ['directions', 'call', 'here'];
 
   @override
@@ -86,18 +88,18 @@ class NavigateToPickupPage extends StatelessWidget {
   }
 
   Widget _nextAction() => RaisedButton(
-    onPressed: () => {},
-    child: Text('Перейти к забору посылок'),
+    onPressed: null,
+    child: Text(Strings.beginParcelAcceptance),
   );
 
   Widget _callToCenterAction() => RaisedButton(
     onPressed: () => launch("tel://21213123123"),
-    child: Text('Позвонить оператору'),
+    child: Text(Strings.callToCenter),
   );
 
   Widget _backAction(BuildContext context) => RaisedButton(
     onPressed: () => Navigator.pop(context),
-    child: Text('назад'),
+    child: Text(Strings.back),
   );
 
 }
