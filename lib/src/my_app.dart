@@ -6,7 +6,7 @@ import 'package:taxi_delivery/src/screens/navigate_store_page.dart';
 
 import 'adventures/pickup_adventure.dart';
 import 'screens/today_route_page.dart';
-import 'delivering_page.dart';
+import 'screens/delivering_page.dart';
 import 'map_page.dart';
 import 'sliding_page.dart';
 

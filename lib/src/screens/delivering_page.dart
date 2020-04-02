@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
-import 'widgets/common.dart';
-import 'strings.dart';
-import 'widgets/card_header.dart';
+import '../widgets/common.dart';
+import '../strings.dart';
+import '../widgets/card_header.dart';
 
 class DeliveryPage extends StatelessWidget {
   final String addressText = 'улица Льва Толстого, 16\nМосква, Хамовники';

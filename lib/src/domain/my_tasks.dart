@@ -19,14 +19,26 @@ class MyTasks extends ChangeNotifier {
   bool get isUpToDate => _isUpToDate;
 
   void fetch() async {
+    await _getState();
+  }
+
+  Future<MyTasks> _getState() {
     _isUpToDate = false;
     notifyListeners();
-    final tasksState = await getTasks(_endpointProvider.endpoint);
-    _currentState = tasksState;
-    _isUpToDate = true;
-    _error = null;
-    notifyListeners();
+    final tasks = getTasks(_endpointProvider.endpoint);
+    tasks.then((tasksState) {
+      _isUpToDate = true;
+      _error = null;
+      _currentState = tasksState;
+      notifyListeners();
+    });
+    tasks.catchError((onError) {
+      _error = "Something went wrong";
+      _isUpToDate = true;
+      notifyListeners();
+    });
   }
+
 }
 
 class TasksState {

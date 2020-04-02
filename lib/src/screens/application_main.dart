@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:taxi_delivery/src/domain/domain.dart';
 
 import '../domain/my_tasks.dart';
 
-import '../adventures/pickup_adventure.dart';
 import '../strings.dart';
 import '../widgets/card_header.dart';
 import '../widgets/common.dart';
@@ -25,19 +24,13 @@ class ApplicationMain extends StatelessWidget {
         if (myTasks.isUpToDate) {
           final err = myTasks.error;
           if (err == null) {
-              return _buildCard(context, myTasks.currentState);
+            if (myTasks.currentState.tasks.isEmpty) {
+              return _emptyTasksState(context, myTasks);
+            } else {
+              return _fullTasksState(context, myTasks);
+            }
           } else {
-            return Center(
-              child: Column(
-                children: <Widget>[
-                  Text("Something went wrong"),
-                  RaisedButton(
-                    onPressed: () => myTasks.fetch(),
-                    child: Text('Reload'),
-                  ),
-                ],
-              ),
-            );
+            return _errorTasksState(context, myTasks);
           }
         } else {
           return Center(child: CircularProgressIndicator());
@@ -46,22 +39,69 @@ class ApplicationMain extends StatelessWidget {
     );
   }
 
-  Widget _buildCard(BuildContext context, TasksState state) {
+  Widget _errorTasksState(BuildContext context, MyTasks tasks) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          DetailsCardHeader(state.summary),
-          Dividers.divider(),
-          _buildStartAcceptanceButton(),
-          _buildCallOperatorButton(),
-          _buildBackButton(),
+          TitleCardHeader("Что-то пошло не так"),
+          _buildCheckStatusButton(context, tasks),
         ],
       ),
     );
   }
 
-  Widget _buildStartAcceptanceButton() {
+  Widget _emptyTasksState(BuildContext context, MyTasks tasks) {
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          TitleCardHeader(tasks.currentState.summary),
+          _buildCheckStatusButton(context, tasks),
+        ],
+      ),
+    );
+  }
+
+  Widget _fullTasksState(BuildContext context, MyTasks tasks) {
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+              TitleCardHeader(tasks.currentState.summary),
+            ] +
+            _buildRouteItems(context, tasks.currentState.tasks) +
+            [_buildNextButton(context, tasks.currentState)],
+      ),
+    );
+  }
+
+  Widget _buildCheckStatusButton(BuildContext context, MyTasks tasks) {
+    return Container(
+      padding: const EdgeInsets.all(2 * UI.m),
+      child: RaisedButton(
+        onPressed: () {
+          tasks.fetch();
+        },
+        child: Container(
+          padding: EdgeInsets.all(2 * UI.m),
+          child: Text("Проверить еще раз"),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNextButton(BuildContext context, TasksState state) {
+    final firstTask = state.tasks.first;
+    switch (firstTask.type) {
+      case MinitaskType.pickup:
+        return _buildPickupButton(context, state);
+      case MinitaskType.delivery:
+        return _buildDeliverButton(context, state);
+    }
+  }
+
+  Widget _buildPickupButton(BuildContext context, TasksState state) {
     return Container(
       padding: const EdgeInsets.all(2 * UI.m),
       child: RaisedButton(
@@ -74,84 +114,37 @@ class ApplicationMain extends StatelessWidget {
     );
   }
 
-  Widget _buildCallOperatorButton() {
+  Widget _buildDeliverButton(BuildContext context, TasksState state) {
     return Container(
       padding: const EdgeInsets.all(2 * UI.m),
       child: RaisedButton(
         onPressed: () {},
         child: Container(
           padding: EdgeInsets.all(2 * UI.m),
-          child: Text(Strings.pickupParcels),
+          child: Text(Strings.deliverParcels),
         ),
       ),
     );
   }
 
-
-  Widget _buildBackButton() {
-    return Container(
-      padding: const EdgeInsets.all(2 * UI.m),
-      child: RaisedButton(
-        onPressed: () {},
-        child: Container(
-          padding: EdgeInsets.all(2 * UI.m),
-          child: Text(Strings.pickupParcels),
-        ),
-      ),
-    );
-  }
-
-  List<Widget> _buildRouteItems(BuildContext context, PickupRoute route) {
+  List<Widget> _buildRouteItems(BuildContext context, List<Minitask> tasks) {
     final items = <Widget>[];
-    final store = route.store;
-    route.deliveryRoute.forEach((itm) {
-      items.add(_buildRouteItem(context, itm.shortText, itm.dateTime));
+    tasks.forEach((itm) {
+      final icon = itm.type == MinitaskType.pickup ? Icons.store : Icons.radio;
+      items.add(_buildRouteItem(context, icon, itm.address.shortText, "Время"));
       items.add(Dividers.divider());
     });
     return items;
   }
 
-  Widget _buildStoreItem(BuildContext context, String text, DateTime time) {
+  Widget _buildRouteItem(
+      BuildContext context, IconData icon, String text, String details) {
     return Container(
       padding: const EdgeInsets.only(left: 2 * UI.m, right: 2 * UI.m),
       child: Row(
         children: <Widget>[
           Container(
-            child: Icon(Icons.store),
-          ),
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.all(2 * UI.m),
-              child: RichText(
-                text: TextSpan(
-                  style: TextStyle(color: Colors.black),
-                  children: [
-                    TextSpan(
-                      text: Strings.pickup,
-                      style: Theme.of(context).textTheme.body2,
-                    ),
-                    TextSpan(
-                      text: text,
-                      style: Theme.of(context).textTheme.body1,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          _buildTimeText(time),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildRouteItem(BuildContext context, String text, DateTime time) {
-    return Container(
-      padding: const EdgeInsets.only(left: 2 * UI.m, right: 2 * UI.m),
-      child: Row(
-        children: <Widget>[
-          Container(
-            child: Icon(Icons.radio_button_checked),
+            child: Icon(icon),
           ),
           Expanded(
             child: Container(
@@ -161,16 +154,12 @@ class ApplicationMain extends StatelessWidget {
                   style: Theme.of(context).textTheme.body1,
                 )),
           ),
-          _buildTimeText(time),
+          Text(
+            details,
+            textAlign: TextAlign.end,
+          ),
         ],
       ),
-    );
-  }
-
-  Text _buildTimeText(DateTime time) {
-    return Text(
-      DateFormat('HH:mm').format(time),
-      textAlign: TextAlign.end,
     );
   }
 }
