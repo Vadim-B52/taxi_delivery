@@ -9,8 +9,13 @@ class OrderItem extends StatelessWidget {
   final String orderSummary;
   final String orderStatus;
 
-  OrderItem(this.isMarked, this.recipientInitials, this.recipientName,
-      this.orderSummary, this.orderStatus);
+  OrderItem({
+    this.isMarked,
+    this.recipientInitials,
+    this.recipientName,
+    this.orderSummary,
+    this.orderStatus
+  });
 
   @override
   Widget build(BuildContext context) {

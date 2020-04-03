@@ -122,7 +122,7 @@ class DailyQuest extends ChangeNotifier implements DailyQuestActions {
       _currentMinitask = first;
       _minitaskStatus = MinitaskStatus.inRoute;
     } else {
-      // NOOP
+      _currentMinitask = first;
     }
   }
 }

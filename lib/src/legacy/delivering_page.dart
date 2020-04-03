@@ -103,11 +103,11 @@ class DeliveryPage extends StatelessWidget {
 
   Widget defaultOrderItem() {
     return OrderItem(
-        true,
-        'DH',
-        'Doctor House Doctor House Doctor House Doctor House',
-        'Order #1234, 1 item',
-        'wait delivery');
+        isMarked: true,
+        recipientInitials: 'DH',
+        recipientName: 'Doctor House Doctor House Doctor House Doctor House',
+        orderSummary: 'Order #1234, 1 item',
+        orderStatus: 'wait delivery');
   }
 
 }
