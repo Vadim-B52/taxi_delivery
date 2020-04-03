@@ -37,6 +37,7 @@ class Buttons {
         child: FlatButton(
           onPressed: onPressed,
           color: Colors.grey[300],
+          disabledColor: Colors.grey[100],
           child: Container(
             padding: EdgeInsets.all(2 * UI.m),
             child: Text(title),
@@ -67,6 +68,7 @@ class Buttons {
           FlatButton(
             onPressed: onPressed,
             color: Colors.grey[300],
+            disabledColor: Colors.grey[100],
             shape: CircleBorder(),
             child: SizedBox(
               width: 60,

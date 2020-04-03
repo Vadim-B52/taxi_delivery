@@ -64,10 +64,15 @@ class _ParcelAcceptanceFormState extends State<ParcelAcceptanceForm> {
   Widget build(BuildContext context) {
     return ListView(
       children: <Widget>[
-        TextField(
-          controller: textEditingController,
-          decoration: InputDecoration(
-              border: InputBorder.none, hintText: 'Номер посылки'),
+        Container(
+          padding: const EdgeInsets.all(UI.m),
+          child: TextField(
+            controller: textEditingController,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: 'Номер посылки',
+            ),
+          ),
         ),
         Buttons.roundButton(context,
             icon: Icons.camera, title: "сканироать", onPressed: null),
