@@ -1,6 +1,8 @@
 import 'dart:collection';
 
 import 'package:flutter/foundation.dart';
+import 'package:taxi_delivery/src/api/endpoint.dart';
+import 'package:taxi_delivery/src/sal/pickup.dart';
 
 import '../api/endpoint_provider.dart';
 import '../sal/get_tasks.dart';
@@ -14,7 +16,7 @@ abstract class DailyQuestActions {
 
   void back();
   
-  void confirmPickup();
+  void confirmPickup(String packageId);
   void declinePickup();
   void confirmDelivery();
   void declineDelivery();
@@ -23,6 +25,7 @@ abstract class DailyQuestActions {
 class DailyQuest extends ChangeNotifier implements DailyQuestActions {
 
   EndpointProvider _endpointProvider = EndpointProvider();
+  Endpoint get _endpoint => _endpointProvider.endpoint;
 
   MinitaskList _minitasks = MinitaskList(summary: "", tasks: new List<Minitask>());
   Minitask _currentMinitask;
@@ -37,7 +40,7 @@ class DailyQuest extends ChangeNotifier implements DailyQuestActions {
   bool get isUpToDate => _isUpToDate;
 
   void checkStatus() async {
-    await _getState();
+    await _getTasks();
   }
 
   void getMinitask() {
@@ -74,7 +77,12 @@ class DailyQuest extends ChangeNotifier implements DailyQuestActions {
     notifyListeners();
   }
 
-  void confirmPickup() {}
+  void confirmPickup(String packageId) async {
+    _isUpToDate = false;
+    notifyListeners();
+    await pickup(_endpoint, packageId);
+    checkStatus();
+  }
 
   void declinePickup() {}
 
@@ -82,14 +90,15 @@ class DailyQuest extends ChangeNotifier implements DailyQuestActions {
 
   void declineDelivery() {}
 
-  Future<DailyQuest> _getState() {
+  Future<MinitaskList> _getTasks() {
     _isUpToDate = false;
     notifyListeners();
-    final tasks = getTasks(_endpointProvider.endpoint);
-    tasks.then((tasksState) {
+    final tasks = getTasks(_endpoint);
+    tasks.then((minitasks) {
       _isUpToDate = true;
       _error = null;
-      _minitasks = tasksState;
+      _minitasks = minitasks;
+      _updateCurrentMinitask(minitasks);
       notifyListeners();
     });
     tasks.catchError((onError) {
@@ -97,6 +106,24 @@ class DailyQuest extends ChangeNotifier implements DailyQuestActions {
       _isUpToDate = true;
       notifyListeners();
     });
+    return tasks;
+  }
+
+  void _updateCurrentMinitask(MinitaskList minitasks) {
+    final prev = _currentMinitask;
+    if (prev == null) {
+      return;
+    }
+    final first = minitasks.tasks.first;
+    if (first == null) {
+      _currentMinitask = null;
+      _minitaskStatus = MinitaskStatus.inRoute;
+    } else if (first.id != prev.id) {
+      _currentMinitask = first;
+      _minitaskStatus = MinitaskStatus.inRoute;
+    } else {
+      // NOOP
+    }
   }
 }
 

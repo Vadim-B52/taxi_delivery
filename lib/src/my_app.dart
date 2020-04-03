@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final dailyQuest = DailyQuest();
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -34,16 +35,18 @@ class MyApp extends StatelessWidget {
         '/pickup': (context) => TodayRoutePage(),
         '/navigate_store': (context) => NavigateStorePage(),
         '/application_main': (context) {
-          final tasks = DailyQuest();
-          tasks.checkStatus();
+          dailyQuest.checkStatus();
           return ChangeNotifierProvider(
-            create: (context) => tasks,
+            create: (context) => dailyQuest,
             child: DailyQuestCardWidget(),
           );
         },
         '/navigate_to_pickup': (context) => NavigateToPickupPage(),
         '/begin_pickup': (context) => BeginPickupPage(),
-        '/acceptance': (context) => ParcelAcceptanceWidget(),
+        '/acceptance': (context) => ChangeNotifierProvider.value(
+          value: dailyQuest,
+          child: ParcelAcceptanceWidget()
+        ),
       },
     );
   }
