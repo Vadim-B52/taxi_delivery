@@ -12,10 +12,13 @@ class Dividers {
 }
 
 class Buttons {
+  static EdgeInsets padding =
+      const EdgeInsets.only(top: UI.m, left: UI.m, right: UI.m);
+
   static Widget primaryButton(BuildContext context,
           {String title, VoidCallback onPressed}) =>
       Container(
-        padding: const EdgeInsets.all(2 * UI.m),
+        padding: padding,
         child: FlatButton(
           onPressed: onPressed,
           color: Colors.amberAccent,
@@ -30,7 +33,7 @@ class Buttons {
   static Widget secondaryButton(BuildContext context,
           {String title, VoidCallback onPressed}) =>
       Container(
-        padding: const EdgeInsets.all(2 * UI.m),
+        padding: padding,
         child: FlatButton(
           onPressed: onPressed,
           color: Colors.grey[300],
@@ -44,7 +47,7 @@ class Buttons {
   static Widget helpButton(BuildContext context,
           {String title, VoidCallback onPressed}) =>
       Container(
-        padding: const EdgeInsets.all(2 * UI.m),
+        padding: padding,
         child: FlatButton(
           onPressed: onPressed,
           shape: RoundedRectangleBorder(
