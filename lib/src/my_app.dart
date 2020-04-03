@@ -5,6 +5,7 @@ import 'package:taxi_delivery/src/legacy/begin_pickup_page.dart';
 import 'package:taxi_delivery/src/legacy/navigate_to_pickup_page.dart';
 import 'package:taxi_delivery/src/screens/daily_quest_card_widget.dart';
 import 'package:taxi_delivery/src/legacy/navigate_store_page.dart';
+import 'package:taxi_delivery/src/screens/parcel_acceptance_widget.dart';
 
 import 'legacy/pickup_adventure.dart';
 import 'legacy/today_route_page.dart';
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         },
         '/navigate_to_pickup': (context) => NavigateToPickupPage(),
         '/begin_pickup': (context) => BeginPickupPage(),
+        '/acceptance': (context) => ParcelAcceptanceWidget(),
       },
     );
   }

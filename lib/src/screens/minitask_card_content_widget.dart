@@ -82,8 +82,11 @@ class MinitaskCardContentWidget extends StatelessWidget {
   Widget _inactiveNextAction(BuildContext context) => Buttons.primaryButton(context,
       title: Strings.beginParcelAcceptance, onPressed: null);
 
-  Widget _nextAction(BuildContext context) => Buttons.primaryButton(context,
-      title: Strings.beginParcelAcceptance, onPressed: () => {});
+  Widget _nextAction(BuildContext context) =>
+      Buttons.primaryButton(context,
+          title: Strings.beginParcelAcceptance, onPressed: () =>
+              Navigator.pushNamed(context, '/acceptance')
+      );
 
   Widget _callToCenterAction(BuildContext context) =>
       Buttons.helpButton(context,
