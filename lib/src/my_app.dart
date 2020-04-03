@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:taxi_delivery/src/domain/my_tasks.dart';
+import 'package:taxi_delivery/src/domain/daily_quest.dart';
 import 'package:taxi_delivery/src/screens/begin_pickup_page.dart';
 import 'package:taxi_delivery/src/screens/navigate_to_pickup_page.dart';
 import 'package:taxi_delivery/src/screens/starting_page.dart';
@@ -33,8 +33,8 @@ class MyApp extends StatelessWidget {
         '/pickup': (context) => TodayRoutePage(),
         '/navigate_store': (context) => NavigateStorePage(),
         '/application_main': (context) {
-          final tasks = MyTasks();
-          tasks.fetch();
+          final tasks = DailyQuest();
+          tasks.checkStatus();
           return ChangeNotifierProvider(
             create: (context) => tasks,
             child: StartingPage(),

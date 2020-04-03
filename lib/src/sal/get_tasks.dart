@@ -6,11 +6,11 @@ import 'package:taxi_delivery/src/dto/address_to.dart';
 
 import '../api/endpoint.dart';
 import '../domain/domain.dart';
-import '../domain/my_tasks.dart';
+import '../domain/daily_quest.dart';
 import '../dto/get_tasks_response_to.dart';
 import '../dto/task_to.dart';
 
-Future<TasksState> getTasks(Endpoint endpoint) async {
+Future<MinitaskList> getTasks(Endpoint endpoint) async {
   final response = await endpoint.get('/gettasks');
   if (response.statusCode == 200) {
     return compute(_parseTasksState, response.body);
@@ -19,11 +19,11 @@ Future<TasksState> getTasks(Endpoint endpoint) async {
   }
 }
 
-TasksState _parseTasksState(String responseBody) {
+MinitaskList _parseTasksState(String responseBody) {
   final parsed = json.decode(responseBody);
   final response = GetTasksResponseTO.fromJson(parsed);
 
-  return TasksState(
+  return MinitaskList(
       summary: response.summary,
       tasks: response.tasks.map<Minitask>(_taskToDomain).toList());
 }

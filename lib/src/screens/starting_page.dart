@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:taxi_delivery/src/domain/domain.dart';
 import 'package:taxi_delivery/src/screens/navigate_to_pickup_page.dart';
 
-import '../domain/my_tasks.dart';
+import '../domain/daily_quest.dart';
 
 import '../strings.dart';
 import '../widgets/card_header.dart';
@@ -20,12 +20,12 @@ class StartingPage extends StatelessWidget {
 
   // FutureBuilder
   Widget _buildTasksState() {
-    return Consumer<MyTasks>(
+    return Consumer<DailyQuest>(
       builder: (context, myTasks, child) {
         if (myTasks.isUpToDate) {
           final err = myTasks.error;
           if (err == null) {
-            if (myTasks.currentState.tasks.isEmpty) {
+            if (myTasks.minitasks.tasks.isEmpty) {
               return _emptyTasksState(context, myTasks);
             } else {
               return _fullTasksState(context, myTasks);
@@ -40,7 +40,7 @@ class StartingPage extends StatelessWidget {
     );
   }
 
-  Widget _errorTasksState(BuildContext context, MyTasks tasks) {
+  Widget _errorTasksState(BuildContext context, DailyQuest tasks) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -52,37 +52,37 @@ class StartingPage extends StatelessWidget {
     );
   }
 
-  Widget _emptyTasksState(BuildContext context, MyTasks tasks) {
+  Widget _emptyTasksState(BuildContext context, DailyQuest tasks) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          TitleCardHeader(tasks.currentState.summary),
+          TitleCardHeader(tasks.minitasks.summary),
           _buildCheckStatusButton(context, tasks),
         ],
       ),
     );
   }
 
-  Widget _fullTasksState(BuildContext context, MyTasks tasks) {
+  Widget _fullTasksState(BuildContext context, DailyQuest tasks) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-              TitleCardHeader(tasks.currentState.summary),
+              TitleCardHeader(tasks.minitasks.summary),
             ] +
-            _buildRouteItems(context, tasks.currentState.tasks) +
-            [_buildNextButton(context, tasks.currentState)],
+            _buildRouteItems(context, tasks.minitasks.tasks) +
+            [_buildNextButton(context, tasks.minitasks)],
       ),
     );
   }
 
-  Widget _buildCheckStatusButton(BuildContext context, MyTasks tasks) {
+  Widget _buildCheckStatusButton(BuildContext context, DailyQuest tasks) {
     return Container(
       padding: const EdgeInsets.all(2 * UI.m),
       child: RaisedButton(
         onPressed: () {
-          tasks.fetch();
+          tasks.checkStatus();
         },
         child: Container(
           padding: EdgeInsets.all(2 * UI.m),
@@ -92,7 +92,7 @@ class StartingPage extends StatelessWidget {
     );
   }
 
-  Widget _buildNextButton(BuildContext context, TasksState state) {
+  Widget _buildNextButton(BuildContext context, MinitaskList state) {
     final firstTask = state.tasks.first;
     switch (firstTask.type) {
       case MinitaskType.pickup:
@@ -102,7 +102,7 @@ class StartingPage extends StatelessWidget {
     }
   }
 
-  Widget _buildPickupButton(BuildContext context, TasksState state) {
+  Widget _buildPickupButton(BuildContext context, MinitaskList state) {
     return Container(
       padding: const EdgeInsets.all(2 * UI.m),
       child: RaisedButton(
@@ -122,7 +122,7 @@ class StartingPage extends StatelessWidget {
     );
   }
 
-  Widget _buildDeliverButton(BuildContext context, TasksState state) {
+  Widget _buildDeliverButton(BuildContext context, MinitaskList state) {
     return Container(
       padding: const EdgeInsets.all(2 * UI.m),
       child: RaisedButton(
