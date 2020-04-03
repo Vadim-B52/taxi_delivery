@@ -26,8 +26,8 @@ class MinitaskCardContentWidget extends StatelessWidget {
     }
   }
 
-  Widget _buildInRoute(BuildContext context, Minitask minitask) {
-    return ListView(
+  Widget _buildInRoute(BuildContext context, Minitask minitask) => 
+      ListView(
       children: <Widget>[
         _addressSection(context, minitask),
         Dividers.divider(),
@@ -35,14 +35,22 @@ class MinitaskCardContentWidget extends StatelessWidget {
         Dividers.divider(),
         _actionsSection(context, minitask),
         Dividers.divider(),
-        _nextAction(context),
+        _inactiveNextAction(context),
         _callToCenterAction(context),
         _backAction(context),
       ],
     );
-  }
 
-  Widget _buildInProgress(BuildContext context, Minitask minitask) {}
+  Widget _buildInProgress(BuildContext context, Minitask minitask) =>
+      ListView(
+        children: <Widget>[
+          _addressSection(context, minitask),
+          Dividers.divider(),
+          _nextAction(context),
+          _callToCenterAction(context),
+          _backAction(context),
+        ],
+      );
 
   Widget _addressSection(BuildContext context, Minitask minitask) {
     return TitleDetailsCardHeader(
@@ -71,8 +79,11 @@ class MinitaskCardContentWidget extends StatelessWidget {
         ));
   }
 
-  Widget _nextAction(BuildContext context) => Buttons.primaryButton(context,
+  Widget _inactiveNextAction(BuildContext context) => Buttons.primaryButton(context,
       title: Strings.beginParcelAcceptance, onPressed: null);
+
+  Widget _nextAction(BuildContext context) => Buttons.primaryButton(context,
+      title: Strings.beginParcelAcceptance, onPressed: () => {});
 
   Widget _callToCenterAction(BuildContext context) =>
       Buttons.helpButton(context,
