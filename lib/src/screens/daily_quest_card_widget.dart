@@ -47,7 +47,9 @@ class DailyQuestCardWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           TitleCardHeader("Что-то пошло не так"),
-          _buildCheckStatusButton(context, dailyQuest),
+          Buttons.primaryButton(context,
+              text: Strings.checkOnceMore,
+              onPressed: () => dailyQuest.checkStatus()),
         ],
       ),
     );
@@ -59,7 +61,9 @@ class DailyQuestCardWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           TitleCardHeader(dailyQuest.minitasks.summary),
-          _buildCheckStatusButton(context, dailyQuest),
+          Buttons.primaryButton(context,
+              text: Strings.checkOnceMore,
+              onPressed: () => dailyQuest.checkStatus()),
         ],
       ),
     );
@@ -82,39 +86,14 @@ class DailyQuestCardWidget extends StatelessWidget {
     return MinitaskCardContentWidget(dailyQuest: dailyQuest);
   }
 
-  Widget _buildCheckStatusButton(BuildContext context, DailyQuest dailyQuest) {
-    return Container(
-      padding: const EdgeInsets.all(2 * UI.m),
-      child: RaisedButton(
-        onPressed: () {
-          dailyQuest.checkStatus();
-        },
-        child: Container(
-          padding: EdgeInsets.all(2 * UI.m),
-          child: Text(Strings.checkOnceMore),
-        ),
-      ),
-    );
-  }
-
   Widget _buildNextButton(BuildContext context, DailyQuest dailyQuest) {
     final firstTask = dailyQuest.minitasks.tasks.first;
     final title = firstTask.type == MinitaskType.pickup
         ? Strings.pickupParcels
         : Strings.deliverParcels;
 
-    return Container(
-      padding: const EdgeInsets.all(2 * UI.m),
-      child: RaisedButton(
-        onPressed: () {
-          dailyQuest.getMinitask();
-        },
-        child: Container(
-          padding: EdgeInsets.all(2 * UI.m),
-          child: Text(title),
-        ),
-      ),
-    );
+    return Buttons.primaryButton(context,
+        text: title, onPressed: () => dailyQuest.getMinitask());
   }
 
   List<Widget> _buildRouteItems(BuildContext context, List<Minitask> tasks) {
