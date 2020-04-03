@@ -1,10 +1,10 @@
 import 'dart:collection';
 
 import 'package:flutter/foundation.dart';
-import 'package:taxi_delivery/src/api/endpoint.dart';
-import 'package:taxi_delivery/src/sal/pickup.dart';
 
+import '../api/endpoint.dart';
 import '../api/endpoint_provider.dart';
+import '../sal/confirm_pickup.dart' as confirmPickupClient;
 import '../sal/get_tasks.dart';
 import 'domain.dart';
 
@@ -80,7 +80,7 @@ class DailyQuest extends ChangeNotifier implements DailyQuestActions {
   void confirmPickup(String packageId) async {
     _isUpToDate = false;
     notifyListeners();
-    await pickup(_endpoint, packageId);
+    await confirmPickupClient.confirmPickup(_endpoint, packageId);
     checkStatus();
   }
 

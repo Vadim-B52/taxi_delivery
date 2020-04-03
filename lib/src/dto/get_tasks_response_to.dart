@@ -12,5 +12,6 @@ class GetTasksResponseTO {
           tasks: json['tasks']
               .cast<Map<String, dynamic>>()
               .map<TaskTO>((json) => TaskTO.fromJson(json))
-              .toList());
+              .toList(),
+      );
 }
