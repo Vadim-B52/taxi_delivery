@@ -50,7 +50,12 @@ class MinitaskCardContentWidget extends StatelessWidget {
   Widget _buildInProgress(BuildContext context, Minitask minitask) {}
 
   Widget _addressSection(BuildContext context, Minitask minitask) {
-    return TitleCardHeader(minitask.address.shortText);
+    return TitleDetailsCardHeader(
+      title: minitask.type == MinitaskType.pickup
+          ? "Забор посылок по адресу"
+          : "Доставить по адресу",
+      details: minitask.address.shortText,
+    );
   }
 
   Widget _actionsSection(BuildContext context, Minitask minitask) {
@@ -90,8 +95,7 @@ class MinitaskCardContentWidget extends StatelessWidget {
   }
 
   Widget _nextAction(BuildContext context) => Buttons.primaryButton(context,
-      text: Strings.beginParcelAcceptance,
-      onPressed: null);
+      text: Strings.beginParcelAcceptance, onPressed: null);
 
   Widget _callToCenterAction(BuildContext context) =>
       Buttons.helpButton(context,
