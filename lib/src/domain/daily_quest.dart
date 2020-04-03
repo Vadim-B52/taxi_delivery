@@ -24,7 +24,7 @@ class DailyQuest extends ChangeNotifier implements DailyQuestActions {
 
   MinitaskList _minitasks = MinitaskList(summary: "", tasks: new List<Minitask>());
   Minitask _currentMinitask;
-  MinitaskStatus _minitaskStatus = MinitaskStatus.atRoute;
+  MinitaskStatus _minitaskStatus = MinitaskStatus.inRoute;
   String _error;
   bool _isUpToDate = false;
 
@@ -40,12 +40,12 @@ class DailyQuest extends ChangeNotifier implements DailyQuestActions {
 
   void getMinitask() {
     _currentMinitask = _minitasks.tasks.first;
-    _minitaskStatus = MinitaskStatus.atRoute;
+    _minitaskStatus = MinitaskStatus.inRoute;
     notifyListeners();
   }
 
   void arriveAtMinitask() {
-    _minitaskStatus = MinitaskStatus.atPlace;
+    _minitaskStatus = MinitaskStatus.inPlace;
     notifyListeners();
   }
 
@@ -81,8 +81,8 @@ class DailyQuest extends ChangeNotifier implements DailyQuestActions {
 }
 
 enum MinitaskStatus {
-  atRoute,
-  atPlace,
+  inRoute,
+  inPlace,
   inProgress,
 }
 
@@ -91,6 +91,7 @@ class MinitaskList {
   final List<Minitask> _tasks;
 
   UnmodifiableListView<Minitask> get tasks => UnmodifiableListView(_tasks);
+  bool get isEmpty => _tasks.isEmpty;
 
   MinitaskList({@required this.summary, @required tasks}) : _tasks = tasks;
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taxi_delivery/src/domain/domain.dart';
+import 'package:taxi_delivery/src/screens/minitask_card_content_widget.dart';
 import 'package:taxi_delivery/src/screens/navigate_to_pickup_page.dart';
 
 import '../domain/daily_quest.dart';
@@ -9,7 +10,7 @@ import '../strings.dart';
 import '../widgets/card_header.dart';
 import '../widgets/common.dart';
 
-class StartingPage extends StatelessWidget {
+class DailyQuestCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,17 +22,17 @@ class StartingPage extends StatelessWidget {
   // FutureBuilder
   Widget _buildTasksState() {
     return Consumer<DailyQuest>(
-      builder: (context, myTasks, child) {
-        if (myTasks.isUpToDate) {
-          final err = myTasks.error;
+      builder: (context, dailyQuest, child) {
+        if (dailyQuest.isUpToDate) {
+          final err = dailyQuest.error;
           if (err == null) {
-            if (myTasks.minitasks.tasks.isEmpty) {
-              return _emptyTasksState(context, myTasks);
+            if (dailyQuest.minitasks.isEmpty) {
+              return _emptyState(context, dailyQuest);
             } else {
-              return _fullTasksState(context, myTasks);
+              return _normalState(context, dailyQuest);
             }
           } else {
-            return _errorTasksState(context, myTasks);
+            return _errorState(context, dailyQuest);
           }
         } else {
           return Center(child: CircularProgressIndicator());
@@ -40,96 +41,77 @@ class StartingPage extends StatelessWidget {
     );
   }
 
-  Widget _errorTasksState(BuildContext context, DailyQuest tasks) {
+  Widget _errorState(BuildContext context, DailyQuest dailyQuest) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           TitleCardHeader("Что-то пошло не так"),
-          _buildCheckStatusButton(context, tasks),
+          _buildCheckStatusButton(context, dailyQuest),
         ],
       ),
     );
   }
 
-  Widget _emptyTasksState(BuildContext context, DailyQuest tasks) {
+  Widget _emptyState(BuildContext context, DailyQuest dailyQuest) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          TitleCardHeader(tasks.minitasks.summary),
-          _buildCheckStatusButton(context, tasks),
+          TitleCardHeader(dailyQuest.minitasks.summary),
+          _buildCheckStatusButton(context, dailyQuest),
         ],
       ),
     );
   }
 
-  Widget _fullTasksState(BuildContext context, DailyQuest tasks) {
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-              TitleCardHeader(tasks.minitasks.summary),
-            ] +
-            _buildRouteItems(context, tasks.minitasks.tasks) +
-            [_buildNextButton(context, tasks.minitasks)],
-      ),
-    );
-  }
-
-  Widget _buildCheckStatusButton(BuildContext context, DailyQuest tasks) {
-    return Container(
-      padding: const EdgeInsets.all(2 * UI.m),
-      child: RaisedButton(
-        onPressed: () {
-          tasks.checkStatus();
-        },
-        child: Container(
-          padding: EdgeInsets.all(2 * UI.m),
-          child: Text("Проверить еще раз"),
+  Widget _normalState(BuildContext context, DailyQuest dailyQuest) {
+    final minitask = dailyQuest.currentMinitask;
+    if (minitask == null) {
+      return Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+                TitleCardHeader(dailyQuest.minitasks.summary),
+              ] +
+              _buildRouteItems(context, dailyQuest.minitasks.tasks) +
+              [_buildNextButton(context, dailyQuest)],
         ),
-      ),
-    );
-  }
-
-  Widget _buildNextButton(BuildContext context, MinitaskList state) {
-    final firstTask = state.tasks.first;
-    switch (firstTask.type) {
-      case MinitaskType.pickup:
-        return _buildPickupButton(context, state);
-      case MinitaskType.delivery:
-        return _buildDeliverButton(context, state);
+      );
     }
+    return MinitaskCardContentWidget(dailyQuest: dailyQuest);
   }
 
-  Widget _buildPickupButton(BuildContext context, MinitaskList state) {
+  Widget _buildCheckStatusButton(BuildContext context, DailyQuest dailyQuest) {
     return Container(
       padding: const EdgeInsets.all(2 * UI.m),
       child: RaisedButton(
         onPressed: () {
-          Navigator.pushNamed(
-            context,
-            '/navigate_to_pickup',
-            arguments: NavigateToPickupPageArguments(
-                minitask: state.tasks.first),
-          );
+          dailyQuest.checkStatus();
         },
         child: Container(
           padding: EdgeInsets.all(2 * UI.m),
-          child: Text(Strings.pickupParcels),
+          child: Text(Strings.checkOnceMore),
         ),
       ),
     );
   }
 
-  Widget _buildDeliverButton(BuildContext context, MinitaskList state) {
+  Widget _buildNextButton(BuildContext context, DailyQuest dailyQuest) {
+    final firstTask = dailyQuest.minitasks.tasks.first;
+    final title = firstTask.type == MinitaskType.pickup
+        ? Strings.pickupParcels
+        : Strings.deliverParcels;
+
     return Container(
       padding: const EdgeInsets.all(2 * UI.m),
       child: RaisedButton(
-        onPressed: () {},
+        onPressed: () {
+          dailyQuest.getMinitask();
+        },
         child: Container(
           padding: EdgeInsets.all(2 * UI.m),
-          child: Text(Strings.deliverParcels),
+          child: Text(title),
         ),
       ),
     );
