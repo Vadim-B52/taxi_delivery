@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taxi_delivery/src/screens/begin_pickup_page.dart';
+import 'package:taxi_delivery/src/legacy/begin_pickup_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../strings.dart';

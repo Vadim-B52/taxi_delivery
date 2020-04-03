@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taxi_delivery/src/domain/domain.dart';
 import 'package:taxi_delivery/src/screens/minitask_card_content_widget.dart';
-import 'package:taxi_delivery/src/screens/navigate_to_pickup_page.dart';
+import 'package:taxi_delivery/src/legacy/navigate_to_pickup_page.dart';
 
 import '../domain/daily_quest.dart';
 
@@ -48,7 +48,7 @@ class DailyQuestCardWidget extends StatelessWidget {
         children: <Widget>[
           TitleCardHeader("Что-то пошло не так"),
           Buttons.primaryButton(context,
-              text: Strings.checkOnceMore,
+              title: Strings.checkOnceMore,
               onPressed: () => dailyQuest.checkStatus()),
         ],
       ),
@@ -62,7 +62,7 @@ class DailyQuestCardWidget extends StatelessWidget {
         children: <Widget>[
           TitleCardHeader(dailyQuest.minitasks.summary),
           Buttons.primaryButton(context,
-              text: Strings.checkOnceMore,
+              title: Strings.checkOnceMore,
               onPressed: () => dailyQuest.checkStatus()),
         ],
       ),
@@ -93,7 +93,7 @@ class DailyQuestCardWidget extends StatelessWidget {
         : Strings.deliverParcels;
 
     return Buttons.primaryButton(context,
-        text: title, onPressed: () => dailyQuest.getMinitask());
+        title: title, onPressed: () => dailyQuest.getMinitask());
   }
 
   List<Widget> _buildRouteItems(BuildContext context, List<Minitask> tasks) {

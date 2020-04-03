@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taxi_delivery/src/domain/daily_quest.dart';
-import 'package:taxi_delivery/src/screens/begin_pickup_page.dart';
-import 'package:taxi_delivery/src/screens/navigate_to_pickup_page.dart';
+import 'package:taxi_delivery/src/legacy/begin_pickup_page.dart';
+import 'package:taxi_delivery/src/legacy/navigate_to_pickup_page.dart';
 import 'package:taxi_delivery/src/screens/daily_quest_card_widget.dart';
 import 'package:taxi_delivery/src/legacy/navigate_store_page.dart';
 

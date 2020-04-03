@@ -13,11 +13,6 @@ import '../widgets/time_section.dart';
 class MinitaskCardContentWidget extends StatelessWidget {
   final DailyQuest dailyQuest;
 
-  // TODO:
-  //  <a href="yandexnavi://">Открыть Яндекс.Навигатор</a>
-  //  <a href="yandexmaps://maps.yandex.ru/?ll=37.62,55.75&z=12">Открыть карту
-  final List<String> contextActions = ['directions', 'here'];
-
   MinitaskCardContentWidget({this.dailyQuest});
 
   @override
@@ -63,45 +58,27 @@ class MinitaskCardContentWidget extends StatelessWidget {
         padding: EdgeInsets.all(2 * UI.m),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: contextActions
-              .map<Widget>((action) => _action(context, minitask, action))
-              .where((x) => x != null)
-              .toList(),
+          children: [
+            Buttons.roundButton(context,
+                icon: Icons.directions,
+                title: 'Навигация',
+                onPressed: () => launch("yandexnavi://")),
+            Buttons.roundButton(context,
+                icon: Icons.flag,
+                title: 'На месте',
+                onPressed: () => dailyQuest.arriveAtMinitask()),
+          ],
         ));
   }
 
-  Widget _action(BuildContext context, Minitask minitask, String type) {
-    switch (type) {
-      case 'directions':
-        return RawMaterialButton(
-          onPressed: () => launch("yandexnavi://"),
-          child: Icon(Icons.directions),
-          shape: CircleBorder(),
-          fillColor: Colors.grey[300],
-          padding: EdgeInsets.all(15.0),
-        );
-      case 'here':
-        return RawMaterialButton(
-          onPressed: () => {},
-          child: Icon(Icons.flag),
-          shape: CircleBorder(),
-          fillColor: Colors.grey[300],
-          padding: EdgeInsets.all(15.0),
-        );
-      default:
-        assert(false, "Unknown type");
-        return null;
-    }
-  }
-
   Widget _nextAction(BuildContext context) => Buttons.primaryButton(context,
-      text: Strings.beginParcelAcceptance, onPressed: null);
+      title: Strings.beginParcelAcceptance, onPressed: null);
 
   Widget _callToCenterAction(BuildContext context) =>
       Buttons.helpButton(context,
-          text: Strings.callToCenter,
+          title: Strings.callToCenter,
           onPressed: () => launch("tel://21213123123"));
 
   Widget _backAction(BuildContext context) => Buttons.secondaryButton(context,
-      text: Strings.back, onPressed: () => dailyQuest.back());
+      title: Strings.back, onPressed: () => dailyQuest.back());
 }
