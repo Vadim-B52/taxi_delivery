@@ -6,12 +6,16 @@ class Minitask {
   final Address address;
   final String description;
   final List<Package> packages;
+  final DateTime deadline;
 
-  Minitask({@required this.id,
+  Minitask({
+    @required this.id,
     @required this.type,
     @required this.address,
     @required this.description,
-    @required this.packages});
+    @required this.packages,
+    @required this.deadline,
+  });
 }
 
 enum MinitaskType {

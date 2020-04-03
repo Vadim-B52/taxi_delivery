@@ -29,12 +29,14 @@ MinitaskList _parseTasksState(String responseBody) {
       tasks: response.tasks.map<Minitask>(_taskToDomain).toList());
 }
 
-Minitask _taskToDomain(TaskTO task) => Minitask(
+Minitask _taskToDomain(TaskTO task) =>
+    Minitask(
       id: task.id,
       type: _taskTypeToDomain(task.type),
       address: _addressToDomain(task.address),
       description: task.description,
       packages: task.packages.map<Package>(_packageToDomain).toList(),
+      deadline: task.deadline,
     );
 
 // TODO:

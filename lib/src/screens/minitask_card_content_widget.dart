@@ -31,7 +31,7 @@ class MinitaskCardContentWidget extends StatelessWidget {
       children: <Widget>[
         _addressSection(context, minitask),
         Dividers.divider(),
-        TimeSection(DateTime(2020, 04, 12)),
+        TimeSection(minitask.deadline),
         Dividers.divider(),
         _actionsSection(context, minitask),
         Dividers.divider(),
