@@ -11,7 +11,6 @@ import '../domain/domain.dart';
 import '../widgets/time_section.dart';
 
 class MinitaskCardContentWidget extends StatelessWidget {
-  
   final DailyQuest dailyQuest;
 
   // TODO:
@@ -20,7 +19,7 @@ class MinitaskCardContentWidget extends StatelessWidget {
   final List<String> contextActions = ['directions', 'here'];
 
   MinitaskCardContentWidget({this.dailyQuest});
-  
+
   @override
   Widget build(BuildContext context) {
     final minitask = dailyQuest.currentMinitask;
@@ -41,16 +40,14 @@ class MinitaskCardContentWidget extends StatelessWidget {
         Dividers.divider(),
         _actionsSection(context, minitask),
         Dividers.divider(),
-        _nextAction(),
-        _callToCenterAction(),
+        _nextAction(context),
+        _callToCenterAction(context),
         _backAction(context),
       ],
     );
   }
 
-  Widget _buildInProgress(BuildContext context, Minitask minitask) {
-
-  }
+  Widget _buildInProgress(BuildContext context, Minitask minitask) {}
 
   Widget _addressSection(BuildContext context, Minitask minitask) {
     return TitleCardHeader(minitask.address.shortText);
@@ -92,19 +89,15 @@ class MinitaskCardContentWidget extends StatelessWidget {
     }
   }
 
-  Widget _nextAction() => RaisedButton(
-    onPressed: null,
-    child: Text(Strings.beginParcelAcceptance),
-  );
+  Widget _nextAction(BuildContext context) => Buttons.primaryButton(context,
+      text: Strings.beginParcelAcceptance,
+      onPressed: null);
 
-  Widget _callToCenterAction() => RaisedButton(
-    onPressed: () => launch("tel://21213123123"),
-    child: Text(Strings.callToCenter),
-  );
+  Widget _callToCenterAction(BuildContext context) =>
+      Buttons.helpButton(context,
+          text: Strings.callToCenter,
+          onPressed: () => launch("tel://21213123123"));
 
-  Widget _backAction(BuildContext context) => RaisedButton(
-    onPressed: () => Navigator.pop(context),
-    child: Text(Strings.back),
-  );
-  
+  Widget _backAction(BuildContext context) => Buttons.secondaryButton(context,
+      text: Strings.back, onPressed: () => dailyQuest.back());
 }

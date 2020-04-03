@@ -11,6 +11,8 @@ abstract class DailyQuestActions {
   void getMinitask();
   void arriveAtMinitask();
   void startMinitask();
+
+  void back();
   
   void confirmPickup();
   void declinePickup();
@@ -51,6 +53,24 @@ class DailyQuest extends ChangeNotifier implements DailyQuestActions {
 
   void startMinitask() {
     _minitaskStatus = MinitaskStatus.inProgress;
+    notifyListeners();
+  }
+
+  void back() {
+    if (_currentMinitask == null) {
+      return;
+    }
+    switch (_minitaskStatus) {
+      case MinitaskStatus.inRoute:
+        _currentMinitask = null;
+        break;
+      case MinitaskStatus.inPlace:
+        _minitaskStatus = MinitaskStatus.inRoute;
+        break;
+      case MinitaskStatus.inProgress:
+        _minitaskStatus = MinitaskStatus.inPlace;
+        break;
+    }
     notifyListeners();
   }
 

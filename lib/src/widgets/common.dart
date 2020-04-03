@@ -16,8 +16,10 @@ class Buttons {
           BuildContext context, {String text, VoidCallback onPressed}) =>
       Container(
         padding: const EdgeInsets.all(2 * UI.m),
-        child: RaisedButton(
+        child: FlatButton(
           onPressed: onPressed,
+          color: Colors.amberAccent,
+          disabledColor: Colors.amberAccent.withAlpha(100),
           child: Container(
             padding: EdgeInsets.all(2 * UI.m),
             child: Text(text),
@@ -26,11 +28,12 @@ class Buttons {
       );
 
   static Widget secondaryButton(
-      BuildContext context, String text, VoidCallback onPressed) =>
+      BuildContext context, {String text, VoidCallback onPressed}) =>
       Container(
         padding: const EdgeInsets.all(2 * UI.m),
-        child: RaisedButton(
+        child: FlatButton(
           onPressed: onPressed,
+          color: Colors.grey[300],
           child: Container(
             padding: EdgeInsets.all(2 * UI.m),
             child: Text(text),
@@ -39,11 +42,14 @@ class Buttons {
       );
 
   static Widget helpButton(
-      BuildContext context, String text, VoidCallback onPressed) =>
+      BuildContext context, {String text, VoidCallback onPressed}) =>
       Container(
         padding: const EdgeInsets.all(2 * UI.m),
-        child: RaisedButton(
+        child: FlatButton(
           onPressed: onPressed,
+          shape: RoundedRectangleBorder(
+            side: BorderSide(color: Colors.blueAccent),
+          ),
           child: Container(
             padding: EdgeInsets.all(2 * UI.m),
             child: Text(text),
