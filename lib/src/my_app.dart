@@ -9,8 +9,8 @@ import 'package:taxi_delivery/src/legacy/navigate_store_page.dart';
 import 'legacy/pickup_adventure.dart';
 import 'legacy/today_route_page.dart';
 import 'legacy/delivering_page.dart';
-import 'map_page.dart';
-import 'sliding_page.dart';
+import 'legacy/map_page.dart';
+import 'legacy/sliding_page.dart';
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
