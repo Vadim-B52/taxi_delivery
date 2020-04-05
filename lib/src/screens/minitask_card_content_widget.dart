@@ -43,7 +43,11 @@ class MinitaskCardContentWidget extends StatelessWidget {
           Dividers.divider(),
           _actionsSection(context, minitask),
           Dividers.divider(),
-          _inactiveNextAction(context, minitask),
+          Buttons.primaryButton(
+            context,
+            title: Strings.beginParcelAcceptance,
+            onPressed: null,
+          ),
           _callToCenterAction(context),
           _backAction(context),
           SizedBox(
@@ -65,7 +69,11 @@ class MinitaskCardContentWidget extends StatelessWidget {
             packages: minitask.packages,
           ),
           Dividers.divider(),
-          _inactiveNextAction(context, minitask),
+          Buttons.primaryButton(
+            context,
+            title: Strings.beginParcelDelivery,
+            onPressed: null,
+          ),
           _callToCenterAction(context),
           _backAction(context),
           SizedBox(
@@ -79,7 +87,11 @@ class MinitaskCardContentWidget extends StatelessWidget {
         children: <Widget>[
           _addressSection(context, minitask),
           Dividers.divider(),
-          _nextAction(context, minitask),
+          Buttons.primaryButton(
+            context,
+            title: Strings.beginParcelAcceptance,
+            onPressed: () => Navigator.pushNamed(context, '/acceptance'),
+          ),
           _callToCenterAction(context),
           _backAction(context),
           SizedBox(
@@ -97,6 +109,11 @@ class MinitaskCardContentWidget extends StatelessWidget {
             packages: minitask.packages,
           ),
           Dividers.divider(),
+          Buttons.primaryButton(
+            context,
+            title: Strings.beginParcelDelivery,
+            onPressed: null,
+          ),
           _callToCenterAction(context),
           _backAction(context),
           SizedBox(
@@ -128,31 +145,6 @@ class MinitaskCardContentWidget extends StatelessWidget {
                 onPressed: () => dailyQuest.arriveAtMinitask()),
           ],
         ));
-  }
-
-  Widget _inactiveNextAction(BuildContext context, Minitask minitask) {
-    return Buttons.primaryButton(
-      context,
-      title: _nextButtonTitle(minitask),
-      onPressed: null,
-    );
-  }
-
-  Widget _nextAction(BuildContext context, Minitask minitask) {
-    return Buttons.primaryButton(
-      context,
-      title: _nextButtonTitle(minitask),
-      onPressed: () => Navigator.pushNamed(context, '/acceptance'),
-    );
-  }
-
-  String _nextButtonTitle(Minitask minitask) {
-    switch (minitask.type) {
-      case MinitaskType.pickup:
-        return Strings.beginParcelAcceptance;
-      case MinitaskType.delivery:
-        return Strings.beginParcelDelivery;
-    }
   }
 
   Widget _callToCenterAction(BuildContext context) =>
