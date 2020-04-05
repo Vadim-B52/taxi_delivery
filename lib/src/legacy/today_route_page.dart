@@ -96,7 +96,7 @@ class TodayRoutePage extends StatelessWidget {
                   style: TextStyle(color: Colors.black),
                   children: [
                     TextSpan(
-                      text: Strings.pickup,
+                      text: Strings.pickupPrefix,
                       style: Theme.of(context).textTheme.body2,
                     ),
                     TextSpan(

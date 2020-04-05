@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:taxi_delivery/src/domain/domain.dart';
 import 'package:taxi_delivery/src/screens/minitask_card_content_widget.dart';
@@ -98,16 +99,47 @@ class DailyQuestCardWidget extends StatelessWidget {
 
   List<Widget> _buildRouteItems(BuildContext context, List<Minitask> tasks) {
     final items = <Widget>[];
-    tasks.forEach((itm) {
-      final icon = itm.type == MinitaskType.pickup ? Icons.store : Icons.radio;
-      items.add(_buildRouteItem(context, icon, itm.address.shortText, "Время"));
+    tasks.asMap().forEach((idx, itm) {
+      final icon = itm.type == MinitaskType.pickup
+          ? Icons.store
+          : Icons.radio_button_unchecked;
+      items.add(
+        _buildRouteItem(
+            context,
+            icon,
+            _routeItemPrefix(itm.type, idx),
+            itm.address.shortText,
+            _timeDetails(itm.deadline),
+        ),
+      );
       items.add(Dividers.divider());
     });
     return items;
   }
 
+  String _routeItemPrefix(MinitaskType type, int idx) {
+    if (idx > 0) {
+      return "";
+    }
+    switch (type) {
+      case MinitaskType.pickup:
+        return Strings.pickupPrefix;
+      case MinitaskType.delivery:
+        return Strings.deliveryPrefix;
+      case MinitaskType.backup:
+        return Strings.returnPrefix;
+    }
+  }
+
+  String _timeDetails(DateTime time) => DateFormat('HH:mm').format(time);
+
   Widget _buildRouteItem(
-      BuildContext context, IconData icon, String text, String details) {
+    BuildContext context,
+    IconData icon,
+    String prefix,
+    String text,
+    String details,
+  ) {
     return Container(
       padding: const EdgeInsets.only(left: 2 * UI.m, right: 2 * UI.m),
       child: Row(
@@ -117,11 +149,23 @@ class DailyQuestCardWidget extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-                padding: const EdgeInsets.all(2 * UI.m),
-                child: Text(
-                  text,
-                  style: Theme.of(context).textTheme.body1,
-                )),
+              padding: const EdgeInsets.all(2 * UI.m),
+              child: RichText(
+                text: TextSpan(
+                  style: TextStyle(color: Colors.black),
+                  children: [
+                    TextSpan(
+                      text: prefix,
+                      style: Theme.of(context).textTheme.body2,
+                    ),
+                    TextSpan(
+                      text: text,
+                      style: Theme.of(context).textTheme.body1,
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
           Text(
             details,

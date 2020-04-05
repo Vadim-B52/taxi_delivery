@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taxi_delivery/src/domain/domain.dart';
 import 'package:taxi_delivery/src/widgets/order_item.dart';
+import 'package:taxi_delivery/src/widgets/order_list.dart';
 
 import '../domain/daily_quest.dart';
 import '../strings.dart';
@@ -40,8 +41,10 @@ class ParcelAcceptanceWidget extends StatelessWidget {
             title: "Нечего сканировать",
             onPressed: () => Navigator.pop(context),
           ),
-          _packagesSection(context, dailyQuest.currentMinitask.packages),
-        ],
+          OrderList(
+            acceptedStatuses: _acceptedStatuses(),
+            packages: dailyQuest.currentMinitask.packages,
+          ),        ],
       );
 }
 
@@ -87,47 +90,17 @@ class _ParcelAcceptanceFormState extends State<ParcelAcceptanceForm> {
         Buttons.secondaryButton(context,
             title: "Больше нет посылок",
             onPressed: () => Navigator.pop(context)),
-        _packagesSection(context, widget.dailyQuest.currentMinitask.packages),
+        OrderList(
+          acceptedStatuses: _acceptedStatuses(),
+          packages: widget.dailyQuest.currentMinitask.packages,
+        ),
       ],
     );
   }
 }
 
-Widget _packagesSection(BuildContext context, List<Package> packages) {
-  final packageItems = packages
-      .where((p) => p.status != PackageStatus.pending)
-      .map<Widget>(_packageWidget)
-      .toList();
-
-  if (packageItems.isEmpty) {
-    return Container();
-  }
-
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Container(
-        child: Text(
-          Strings.orders,
-          textAlign: TextAlign.start,
-          style: TextStyle(
-            fontSize: 17,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        padding: EdgeInsets.all(2 * UI.m),
-      )
-    ] +
-        packageItems,
-  );
-}
-
-Widget _packageWidget(Package package) {
-  return OrderItem(
-    isMarked: false,
-    recipientInitials: package.customer.initials,
-    recipientName: package.customer.fullName,
-    orderSummary: '',
-    orderStatus: package.status.toString(),
-  );
+Set<PackageStatus> _acceptedStatuses() {
+  final statuses = PackageStatus.values.toSet();
+  statuses.remove(PackageStatus.pending);
+  return statuses;
 }

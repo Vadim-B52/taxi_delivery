@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../domain/daily_quest.dart';
-
+import '../domain/domain.dart';
 import '../strings.dart';
 import '../widgets/card_header.dart';
 import '../widgets/common.dart';
-import '../domain/domain.dart';
 import '../widgets/time_section.dart';
 
 class MinitaskCardContentWidget extends StatelessWidget {
@@ -26,27 +25,25 @@ class MinitaskCardContentWidget extends StatelessWidget {
     }
   }
 
-  Widget _buildInRoute(BuildContext context, Minitask minitask) => 
-      ListView(
-      children: <Widget>[
-        _addressSection(context, minitask),
-        Dividers.divider(),
-        TimeSection(minitask.deadline),
-        Dividers.divider(),
-        _actionsSection(context, minitask),
-        Dividers.divider(),
-        _inactiveNextAction(context),
-        _callToCenterAction(context),
-        _backAction(context),
-      ],
-    );
-
-  Widget _buildInProgress(BuildContext context, Minitask minitask) =>
-      ListView(
+  Widget _buildInRoute(BuildContext context, Minitask minitask) => ListView(
         children: <Widget>[
           _addressSection(context, minitask),
           Dividers.divider(),
-          _nextAction(context),
+          TimeSection(minitask.deadline),
+          Dividers.divider(),
+          _actionsSection(context, minitask),
+          Dividers.divider(),
+          _inactiveNextAction(context, minitask),
+          _callToCenterAction(context),
+          _backAction(context),
+        ],
+      );
+
+  Widget _buildInProgress(BuildContext context, Minitask minitask) => ListView(
+        children: <Widget>[
+          _addressSection(context, minitask),
+          Dividers.divider(),
+          _nextAction(context, minitask),
           _callToCenterAction(context),
           _backAction(context),
         ],
@@ -54,9 +51,7 @@ class MinitaskCardContentWidget extends StatelessWidget {
 
   Widget _addressSection(BuildContext context, Minitask minitask) {
     return TitleDetailsCardHeader(
-      title: minitask.type == MinitaskType.pickup
-          ? "Забор посылок по адресу"
-          : "Доставить по адресу",
+      title: minitask.description,
       details: minitask.address.shortText,
     );
   }
@@ -79,14 +74,32 @@ class MinitaskCardContentWidget extends StatelessWidget {
         ));
   }
 
-  Widget _inactiveNextAction(BuildContext context) => Buttons.primaryButton(context,
-      title: Strings.beginParcelAcceptance, onPressed: null);
+  Widget _inactiveNextAction(BuildContext context, Minitask minitask) {
+    return Buttons.primaryButton(
+      context,
+      title: _nextButtonTitle(minitask),
+      onPressed: null,
+    );
+  }
 
-  Widget _nextAction(BuildContext context) =>
-      Buttons.primaryButton(context,
-          title: Strings.beginParcelAcceptance, onPressed: () =>
-              Navigator.pushNamed(context, '/acceptance')
-      );
+  Widget _nextAction(BuildContext context, Minitask minitask) {
+    return Buttons.primaryButton(
+      context,
+      title: _nextButtonTitle(minitask),
+      onPressed: () => Navigator.pushNamed(context, '/acceptance'),
+    );
+  }
+
+  String _nextButtonTitle(Minitask minitask) {
+    switch (minitask.type) {
+      case MinitaskType.pickup:
+        return Strings.beginParcelAcceptance;
+      case MinitaskType.delivery:
+        return Strings.beginParcelDelivery;
+      case MinitaskType.backup:
+        return Strings.beginParcelReturn;
+    }
+  }
 
   Widget _callToCenterAction(BuildContext context) =>
       Buttons.helpButton(context,
