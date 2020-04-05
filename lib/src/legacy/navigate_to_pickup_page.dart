@@ -89,7 +89,7 @@ class NavigateToPickupPage extends StatelessWidget {
 
   Widget _nextAction() => RaisedButton(
         onPressed: null,
-        child: Text(Strings.beginParcelAcceptance),
+        child: Text(Strings.beginPackageAcceptance),
       );
 
   Widget _callToCenterAction() => RaisedButton(

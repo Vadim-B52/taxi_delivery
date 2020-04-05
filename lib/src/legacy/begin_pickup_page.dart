@@ -84,7 +84,7 @@ class BeginPickupPage extends StatelessWidget {
 
   Widget _nextAction() => RaisedButton(
     onPressed: () => {},
-    child: Text(Strings.beginParcelAcceptance),
+    child: Text(Strings.beginPackageAcceptance),
   );
 
   Widget _callToCenterAction() => RaisedButton(

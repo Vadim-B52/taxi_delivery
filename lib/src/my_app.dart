@@ -5,8 +5,8 @@ import 'package:taxi_delivery/src/legacy/begin_pickup_page.dart';
 import 'package:taxi_delivery/src/legacy/navigate_to_pickup_page.dart';
 import 'package:taxi_delivery/src/screens/daily_quest_card_widget.dart';
 import 'package:taxi_delivery/src/legacy/navigate_store_page.dart';
-import 'package:taxi_delivery/src/screens/parcel_acceptance_widget.dart';
-import 'package:taxi_delivery/src/screens/parcel_delivery_widget.dart';
+import 'package:taxi_delivery/src/screens/package_acceptance_widget.dart';
+import 'package:taxi_delivery/src/screens/package_delivery_widget.dart';
 
 import 'legacy/pickup_adventure.dart';
 import 'legacy/today_route_page.dart';
@@ -46,9 +46,9 @@ class MyApp extends StatelessWidget {
         '/begin_pickup': (context) => BeginPickupPage(),
         '/acceptance': (context) => ChangeNotifierProvider.value(
           value: dailyQuest,
-          child: ParcelAcceptanceWidget()
+          child: PackageAcceptanceWidget()
         ),
-        '/delivery': (context) => ParcelDeliveryWidget(),
+        '/delivery': (context) => PackageDeliveryWidget(),
       },
     );
   }

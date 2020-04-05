@@ -64,7 +64,7 @@ class TodayRoutePage extends StatelessWidget {
         onPressed: () {},
         child: Container(
           padding: EdgeInsets.all(2 * UI.m),
-          child: Text(Strings.pickupParcels),
+          child: Text(Strings.pickupPackages),
         ),
       ),
     );

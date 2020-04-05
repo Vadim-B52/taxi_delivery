@@ -6,7 +6,7 @@ import 'package:taxi_delivery/src/widgets/order_list.dart';
 import '../domain/daily_quest.dart';
 import '../widgets/common.dart';
 
-class ParcelAcceptanceWidget extends StatelessWidget {
+class PackageAcceptanceWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +21,7 @@ class ParcelAcceptanceWidget extends StatelessWidget {
       builder: (context, dailyQuest, child) {
         if (dailyQuest.isUpToDate) {
           if (dailyQuest.currentMinitask.type == MinitaskType.pickup) {
-            return ParcelAcceptanceForm(dailyQuest: dailyQuest);
+            return PackageAcceptanceForm(dailyQuest: dailyQuest);
           } else {
             return _buildComplete(context, dailyQuest);
           }
@@ -46,16 +46,16 @@ class ParcelAcceptanceWidget extends StatelessWidget {
       );
 }
 
-class ParcelAcceptanceForm extends StatefulWidget {
+class PackageAcceptanceForm extends StatefulWidget {
   final DailyQuest dailyQuest;
 
-  const ParcelAcceptanceForm({Key key, this.dailyQuest}) : super(key: key);
+  const PackageAcceptanceForm({Key key, this.dailyQuest}) : super(key: key);
 
   @override
-  _ParcelAcceptanceFormState createState() => _ParcelAcceptanceFormState();
+  _PackageAcceptanceFormState createState() => _PackageAcceptanceFormState();
 }
 
-class _ParcelAcceptanceFormState extends State<ParcelAcceptanceForm> {
+class _PackageAcceptanceFormState extends State<PackageAcceptanceForm> {
   final textEditingController = TextEditingController();
 
   @override

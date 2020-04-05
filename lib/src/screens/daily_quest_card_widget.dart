@@ -90,8 +90,8 @@ class DailyQuestCardWidget extends StatelessWidget {
   Widget _buildNextButton(BuildContext context, DailyQuest dailyQuest) {
     final firstTask = dailyQuest.minitasks.tasks.first;
     final title = firstTask.type == MinitaskType.pickup
-        ? Strings.pickupParcels
-        : Strings.deliverParcels;
+        ? Strings.pickupPackages
+        : Strings.deliverPackages;
 
     return Buttons.primaryButton(context,
         title: title, onPressed: () => dailyQuest.getMinitask());

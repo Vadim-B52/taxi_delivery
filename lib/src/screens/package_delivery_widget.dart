@@ -6,17 +6,17 @@ import '../domain/domain.dart';
 import '../widgets/common.dart';
 import '../widgets/order_item.dart';
 
-class ParcelDeliveryWidgetArguments {
+class PackageDeliveryWidgetArguments {
   final Package package;
 
-  ParcelDeliveryWidgetArguments(this.package);
+  PackageDeliveryWidgetArguments(this.package);
 }
 
-class ParcelDeliveryWidget extends StatelessWidget {
+class PackageDeliveryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ParcelDeliveryWidgetArguments args =
+    final PackageDeliveryWidgetArguments args =
         ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
@@ -68,16 +68,17 @@ class ParcelDeliveryWidget extends StatelessWidget {
       );
 }
 
-class ParcelAcceptanceForm extends StatefulWidget {
+/*
+class PackageAcceptanceForm extends StatefulWidget {
   final DailyQuest dailyQuest;
 
-  const ParcelAcceptanceForm({Key key, this.dailyQuest}) : super(key: key);
+  const PackageAcceptanceForm({Key key, this.dailyQuest}) : super(key: key);
 
   @override
-  _ParcelAcceptanceFormState createState() => _ParcelAcceptanceFormState();
+  _PackageAcceptanceFormState createState() => _PackageAcceptanceFormState();
 }
 
-class _ParcelAcceptanceFormState extends State<ParcelAcceptanceForm> {
+class _PackageAcceptanceFormState extends State<PackageAcceptanceForm> {
   final textEditingController = TextEditingController();
 
   @override
@@ -114,3 +115,4 @@ class _ParcelAcceptanceFormState extends State<ParcelAcceptanceForm> {
     );
   }
 }
+*/

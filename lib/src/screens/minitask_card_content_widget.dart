@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taxi_delivery/src/screens/parcel_delivery_widget.dart';
+import 'package:taxi_delivery/src/screens/package_delivery_widget.dart';
 import 'package:taxi_delivery/src/widgets/order_list.dart';
 
 import 'package:url_launcher/url_launcher.dart';
@@ -46,7 +46,7 @@ class MinitaskCardContentWidget extends StatelessWidget {
           Dividers.divider(),
           Buttons.primaryButton(
             context,
-            title: Strings.beginParcelAcceptance,
+            title: Strings.beginPackageAcceptance,
             onPressed: null,
           ),
           _callToCenterAction(context),
@@ -73,7 +73,7 @@ class MinitaskCardContentWidget extends StatelessWidget {
           Dividers.divider(),
           Buttons.primaryButton(
             context,
-            title: Strings.beginParcelDelivery,
+            title: Strings.beginPackageDelivery,
             onPressed: null,
           ),
           _callToCenterAction(context),
@@ -91,7 +91,7 @@ class MinitaskCardContentWidget extends StatelessWidget {
           Dividers.divider(),
           Buttons.primaryButton(
             context,
-            title: Strings.beginParcelAcceptance,
+            title: Strings.beginPackageAcceptance,
             onPressed: () => Navigator.pushNamed(context, '/acceptance'),
           ),
           _callToCenterAction(context),
@@ -114,7 +114,7 @@ class MinitaskCardContentWidget extends StatelessWidget {
           Dividers.divider(),
           Buttons.primaryButton(
             context,
-            title: Strings.beginParcelDelivery,
+            title: Strings.beginPackageDelivery,
             onPressed: null,
           ),
           _callToCenterAction(context),
@@ -129,7 +129,7 @@ class MinitaskCardContentWidget extends StatelessWidget {
     Navigator.pushNamed(
       context,
       '/delivery',
-      arguments: ParcelDeliveryWidgetArguments(package),
+      arguments: PackageDeliveryWidgetArguments(package),
     );
   }
 
