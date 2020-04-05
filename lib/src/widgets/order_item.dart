@@ -14,7 +14,7 @@ class OrderItem extends StatelessWidget {
     this.recipientInitials,
     this.recipientName,
     this.orderSummary,
-    this.orderStatus
+    this.orderStatus,
   });
 
   @override

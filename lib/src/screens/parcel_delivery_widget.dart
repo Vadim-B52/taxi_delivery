@@ -1,48 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:taxi_delivery/src/domain/domain.dart';
-import 'package:taxi_delivery/src/widgets/order_list.dart';
 
 import '../domain/daily_quest.dart';
+import '../domain/domain.dart';
 import '../widgets/common.dart';
+import '../widgets/order_item.dart';
 
-class ParcelAcceptanceWidget extends StatelessWidget {
+class ParcelDeliveryWidgetArguments {
+  final Package package;
+
+  ParcelDeliveryWidgetArguments(this.package);
+}
+
+class ParcelDeliveryWidget extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
+    final ParcelDeliveryWidgetArguments args =
+        ModalRoute.of(context).settings.arguments;
+
     return Scaffold(
-      appBar: AppBar(title: Text('Приемка посылок')),
-      body: _buildContent(context),
+      appBar: AppBar(title: Text('Выдача посылки')),
+      body: _buildContent(context, args.package),
     );
   }
 
   // FutureBuilder
-  Widget _buildContent(BuildContext context) {
-    return Consumer<DailyQuest>(
-      builder: (context, dailyQuest, child) {
-        if (dailyQuest.isUpToDate) {
-          if (dailyQuest.currentMinitask.type == MinitaskType.pickup) {
-            return ParcelAcceptanceForm(dailyQuest: dailyQuest);
-          } else {
-            return _buildComplete(context, dailyQuest);
-          }
-        } else {
-          return Center(child: CircularProgressIndicator());
-        }
-      },
+  Widget _buildContent(BuildContext context, Package package) {
+    return ListView(
+      children: <Widget>[
+        OrderItem(
+          isMarked: true,
+          recipientInitials: package.customer.initials,
+          recipientName: package.customer.fullName,
+          orderSummary: '',
+          orderStatus: package.status.toString(),
+        ),
+      ],
+//      OrderItem(
+//
+//      ),
     );
+//    return Consumer<DailyQuest>(
+//      builder: (context, dailyQuest, child) {
+//        if (dailyQuest.isUpToDate) {
+//          if (dailyQuest.currentMinitask.type == MinitaskType.delivery) {
+//            return ParcelAcceptanceForm(dailyQuest: dailyQuest);
+//          } else {
+//            return _buildComplete(context, dailyQuest);
+//          }
+//        } else {
+//          return Center(child: CircularProgressIndicator());
+//        }
+//      },
+//    );
   }
 
-  Widget _buildComplete(BuildContext context, DailyQuest dailyQuest) => ListView(
+  Widget _buildComplete(BuildContext context, DailyQuest dailyQuest) =>
+      ListView(
         children: <Widget>[
           Buttons.secondaryButton(
             context,
             title: "Нечего сканировать",
             onPressed: () => Navigator.pop(context),
           ),
-          OrderList(
-            acceptedStatuses: _acceptedStatuses(),
-            packages: dailyQuest.currentMinitask.packages,
-          ),        ],
+        ],
       );
 }
 
@@ -88,17 +110,7 @@ class _ParcelAcceptanceFormState extends State<ParcelAcceptanceForm> {
         Buttons.secondaryButton(context,
             title: "Больше нет посылок",
             onPressed: () => Navigator.pop(context)),
-        OrderList(
-          acceptedStatuses: _acceptedStatuses(),
-          packages: widget.dailyQuest.currentMinitask.packages,
-        ),
       ],
     );
   }
-}
-
-Set<PackageStatus> _acceptedStatuses() {
-  final statuses = PackageStatus.values.toSet();
-  statuses.remove(PackageStatus.pending);
-  return statuses;
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taxi_delivery/src/screens/parcel_delivery_widget.dart';
 import 'package:taxi_delivery/src/widgets/order_list.dart';
 
 import 'package:url_launcher/url_launcher.dart';
@@ -67,6 +68,7 @@ class MinitaskCardContentWidget extends StatelessWidget {
           Dividers.divider(),
           OrderList(
             packages: minitask.packages,
+            callback: (p) => _openPackageForDetails(context, p),
           ),
           Dividers.divider(),
           Buttons.primaryButton(
@@ -107,6 +109,7 @@ class MinitaskCardContentWidget extends StatelessWidget {
           Dividers.divider(),
           OrderList(
             packages: minitask.packages,
+            callback: (p) => _openPackageForDetails(context, p),
           ),
           Dividers.divider(),
           Buttons.primaryButton(
@@ -121,6 +124,14 @@ class MinitaskCardContentWidget extends StatelessWidget {
           ),
         ],
       );
+
+  void _openPackageForDetails(BuildContext context, Package package) {
+    Navigator.pushNamed(
+      context,
+      '/delivery',
+      arguments: ParcelDeliveryWidgetArguments(package),
+    );
+  }
 
   Widget _addressSection(BuildContext context, Minitask minitask) {
     return TitleDetailsCardHeader(
