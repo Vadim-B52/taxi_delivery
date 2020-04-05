@@ -21,7 +21,6 @@ class Minitask {
 enum MinitaskType {
   pickup,
   delivery,
-  backup,
 }
 
 class Address {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taxi_delivery/src/widgets/order_list.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
@@ -19,13 +20,22 @@ class MinitaskCardContentWidget extends StatelessWidget {
     final minitask = dailyQuest.currentMinitask;
     final status = dailyQuest.minitaskStatus;
     if (status == MinitaskStatus.inRoute) {
-      return _buildInRoute(context, minitask);
+      if (minitask.type == MinitaskType.pickup) {
+        return _buildInRouteForPickup(context, minitask);
+      } else {
+        return _buildInRouteForDelivery(context, minitask);
+      }
     } else {
-      return _buildInProgress(context, minitask);
+      if (minitask.type == MinitaskType.pickup) {
+        return _buildInProgressForPickup(context, minitask);
+      } else {
+        return _buildInProgressForDelivery(context, minitask);
+      }
     }
   }
 
-  Widget _buildInRoute(BuildContext context, Minitask minitask) => ListView(
+  Widget _buildInRouteForPickup(BuildContext context, Minitask minitask) =>
+      ListView(
         children: <Widget>[
           _addressSection(context, minitask),
           Dividers.divider(),
@@ -36,16 +46,62 @@ class MinitaskCardContentWidget extends StatelessWidget {
           _inactiveNextAction(context, minitask),
           _callToCenterAction(context),
           _backAction(context),
+          SizedBox(
+            height: UI.m,
+          ),
         ],
       );
 
-  Widget _buildInProgress(BuildContext context, Minitask minitask) => ListView(
+  Widget _buildInRouteForDelivery(BuildContext context, Minitask minitask) =>
+      ListView(
+        children: <Widget>[
+          _addressSection(context, minitask),
+          Dividers.divider(),
+          TimeSection(minitask.deadline),
+          Dividers.divider(),
+          _actionsSection(context, minitask),
+          Dividers.divider(),
+          OrderList(
+            packages: minitask.packages,
+          ),
+          Dividers.divider(),
+          _inactiveNextAction(context, minitask),
+          _callToCenterAction(context),
+          _backAction(context),
+          SizedBox(
+            height: UI.m,
+          ),
+        ],
+      );
+
+  Widget _buildInProgressForPickup(BuildContext context, Minitask minitask) =>
+      ListView(
         children: <Widget>[
           _addressSection(context, minitask),
           Dividers.divider(),
           _nextAction(context, minitask),
           _callToCenterAction(context),
           _backAction(context),
+          SizedBox(
+            height: UI.m,
+          ),
+        ],
+      );
+
+  Widget _buildInProgressForDelivery(BuildContext context, Minitask minitask) =>
+      ListView(
+        children: <Widget>[
+          _addressSection(context, minitask),
+          Dividers.divider(),
+          OrderList(
+            packages: minitask.packages,
+          ),
+          Dividers.divider(),
+          _callToCenterAction(context),
+          _backAction(context),
+          SizedBox(
+            height: UI.m,
+          ),
         ],
       );
 
@@ -96,8 +152,6 @@ class MinitaskCardContentWidget extends StatelessWidget {
         return Strings.beginParcelAcceptance;
       case MinitaskType.delivery:
         return Strings.beginParcelDelivery;
-      case MinitaskType.backup:
-        return Strings.beginParcelReturn;
     }
   }
 

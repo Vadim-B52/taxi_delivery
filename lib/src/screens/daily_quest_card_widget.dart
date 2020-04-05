@@ -126,8 +126,6 @@ class DailyQuestCardWidget extends StatelessWidget {
         return Strings.pickupPrefix;
       case MinitaskType.delivery:
         return Strings.deliveryPrefix;
-      case MinitaskType.backup:
-        return Strings.returnPrefix;
     }
   }
 

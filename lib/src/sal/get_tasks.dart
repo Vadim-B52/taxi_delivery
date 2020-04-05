@@ -46,8 +46,6 @@ MinitaskType _taskTypeToDomain(String type) {
       return MinitaskType.pickup;
     case 'delivery':
       return MinitaskType.delivery;
-    case 'backup':
-      return MinitaskType.backup;
   }
 }
 
